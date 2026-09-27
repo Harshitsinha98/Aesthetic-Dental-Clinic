@@ -18,6 +18,7 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { ArrowRight } from "lucide-react";
 import { publishedInstruments, type Instrument } from "@/lib/instruments";
 
 function Card({ item, i }: { item: Instrument; i: number }) {
@@ -101,7 +102,10 @@ export function InstrumentTray({ header }: { header: React.ReactNode }) {
         </motion.div>
 
         {/* Touch: swipe */}
-        <div className="mt-12 flex snap-x snap-mandatory gap-6 overflow-x-auto px-5 pb-24 [scrollbar-width:none] lg:hidden">
+        <p className="container-page mt-10 flex items-center gap-2 label-mono text-teal-300 lg:hidden">
+          Swipe <ArrowRight className="size-3.5" aria-hidden /> {publishedInstruments.length} instruments
+        </p>
+        <div className="mt-5 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-px-5 px-5 pb-24 [scrollbar-width:none] [-webkit-overflow-scrolling:touch] lg:hidden">
           {publishedInstruments.map((item, i) => (
             <Card key={item.id} item={item} i={i} />
           ))}

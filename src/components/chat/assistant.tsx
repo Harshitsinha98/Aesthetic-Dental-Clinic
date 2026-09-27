@@ -10,7 +10,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowUp, X } from "lucide-react";
+import { ArrowRight, ArrowUp, X } from "lucide-react";
 import { LogoMark } from "@/components/brand/logo";
 import { cn } from "@/lib/cn";
 
@@ -159,10 +159,10 @@ export function Assistant() {
 
             <div className="border-t border-ink/10 p-3">
               <form onSubmit={(e) => { e.preventDefault(); void send(input); }} className="flex items-center gap-2">
-                <input value={input} onChange={(e) => setInput(e.target.value)} maxLength={500} placeholder="Type a question…" className="flex-1 bg-transparent px-2 py-2 text-sm outline-none" aria-label="Your question" />
+                <input value={input} onChange={(e) => setInput(e.target.value)} maxLength={500} placeholder="Type a question…" className="flex-1 bg-transparent px-2 py-2 text-base outline-none sm:text-sm" aria-label="Your question" />
                 <button disabled={busy || !input.trim()} aria-label="Send" className="grid size-9 place-items-center rounded-full bg-crimson text-white disabled:opacity-40"><ArrowUp className="size-4" /></button>
               </form>
-              <Link href="/book" onClick={() => setOpen(false)} className="mt-1 block text-center label-mono text-ink-mute hover:text-ink">Book a token →</Link>
+              <Link href="/book" onClick={() => setOpen(false)} className="mt-1 flex items-center justify-center gap-1.5 label-mono text-ink-mute hover:text-ink">Book a token <ArrowRight className="size-3" /></Link>
             </div>
           </motion.section>
         )}

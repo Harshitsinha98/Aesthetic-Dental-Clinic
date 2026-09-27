@@ -19,6 +19,12 @@ export function Header() {
   useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 24));
   useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+  useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
@@ -96,6 +102,7 @@ export function Header() {
               type="button"
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
+              aria-controls="mobile-menu"
               aria-label={open ? "Close menu" : "Open menu"}
               className="relative z-10 grid size-11 place-items-center rounded-full border border-ink/15 lg:hidden"
             >
@@ -104,43 +111,51 @@ export function Header() {
           </div>
         </div>
 
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              initial={{ clipPath: "inset(0 0 100% 0)" }}
-              animate={{ clipPath: "inset(0 0 0% 0)" }}
-              exit={{ clipPath: "inset(0 0 100% 0)" }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed inset-x-0 top-0 bottom-0 z-0 overflow-y-auto bg-porcelain pt-28 lg:hidden"
-            >
-              <nav aria-label="Mobile" className="container-page flex flex-col">
-                {[...navLinks, { href: "/my-token", label: "My token" }].map((link, i) => (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.12 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <Link
-                      href={link.href}
-                      className="flex items-baseline gap-4 border-b border-ink/10 py-4"
-                    >
-                      <span className="label-mono w-6 text-ink-mute">{String(i + 1).padStart(2, "0")}</span>
-                      <span className="font-display text-4xl">{link.label}</span>
-                    </Link>
-                  </motion.div>
-                ))}
-                <Link
-                  href="/book"
-                  className="mt-8 flex items-center justify-between rounded-full bg-crimson px-6 py-4 text-lg font-medium text-white"
-                >
-                  Book a token <ArrowUpRight className="size-5" />
-                </Link>
-              </nav>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </header>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ clipPath: "inset(0 0 100% 0)" }}
+            animate={{ clipPath: "inset(0 0 0% 0)" }}
+            exit={{ clipPath: "inset(0 0 100% 0)" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            id="mobile-menu"
+            className="fixed inset-0 z-[45] overflow-y-auto overscroll-contain bg-porcelain pt-28 pb-[calc(2.5rem+env(safe-area-inset-bottom))] lg:hidden"
+          >
+            <nav aria-label="Mobile" className="container-page flex flex-col">
+              {[...navLinks, { href: "/my-token", label: "My token" }].map((link, i) => (
+                <motion.div
+                  key={link.href}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.12 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <Link
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className="flex items-baseline gap-4 border-b border-ink/10 py-4 active:bg-paper"
+                  >
+                    <span className="label-mono w-6 text-ink-mute">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="font-display text-[2rem] leading-tight">{link.label}</span>
+                  </Link>
+                </motion.div>
+              ))}
+              <Link
+                href="/book"
+                onClick={() => setOpen(false)}
+                className="mt-8 flex items-center justify-between rounded-full bg-crimson px-6 py-4 text-lg font-medium text-white"
+              >
+                Book a token <ArrowUpRight className="size-5" />
+              </Link>
+              <a href={telHref()} className="mt-3 flex items-center justify-center rounded-full border border-ink/15 px-6 py-4 font-medium">
+                Call {clinic.phoneDisplay}
+              </a>
+              <p className="mt-6 text-center label-mono text-ink-mute"><OpenStatus /></p>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

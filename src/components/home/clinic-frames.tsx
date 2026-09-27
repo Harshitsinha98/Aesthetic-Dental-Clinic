@@ -3,7 +3,7 @@
 /** A parallax strip of clinic photographs, each frame moving at its own rate. */
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 
 const frames = [
@@ -17,10 +17,18 @@ const frames = [
 function Frame({ f, i }: { f: (typeof frames)[number]; i: number }) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
+  const [wide, setWide] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const on = () => setWide(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], [f.speed, -f.speed]);
   return (
-    <motion.figure ref={ref} style={reduce ? undefined : { y }} className={f.className}>
+    <motion.figure ref={ref} style={reduce || !wide ? undefined : { y }} className={f.className}>
       <div className="relative h-full w-full overflow-hidden bg-paper">
         <Image src={f.src} alt={f.caption} fill sizes="(min-width:1024px) 33vw, 100vw" className="object-cover" />
       </div>

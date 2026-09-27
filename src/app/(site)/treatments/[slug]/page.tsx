@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { Reveal, RevealGroup } from "@/components/ui/reveal";
 import { clinic, doctor } from "@/lib/clinic";
 import { treatmentBySlug, treatments } from "@/lib/treatments";
@@ -39,7 +39,7 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
       <header className="border-b border-ink/10">
         <div className="container-page grid gap-10 pt-14 pb-14 lg:grid-cols-12 lg:pt-20">
           <Reveal className="lg:col-span-7">
-            <Link href="/treatments" className="label-mono text-ink-mute hover:text-ink">← Treatments</Link>
+            <Link href="/treatments" className="inline-flex items-center gap-2 label-mono text-ink-mute hover:text-ink"><ArrowLeft className="size-3.5" /> Treatments</Link>
             <p className="mt-8 label-mono text-ink-mute">{t.no} · {t.kind}</p>
             <h1 className="mt-4 text-[clamp(2.8rem,7vw,6rem)] leading-[0.95]">{t.name}</h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">{t.short}</p>

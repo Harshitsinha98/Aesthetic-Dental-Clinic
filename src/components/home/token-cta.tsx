@@ -41,7 +41,7 @@ export function TokenCta() {
           </Link>
         </Reveal>
 
-        <Reveal className="lg:col-span-5 lg:col-start-8" direction="left">
+        <Reveal className="lg:col-span-5 lg:col-start-8">
           <TokenSlip token={7} date="Mon · 28 Sep" time="12:00 PM" code="AAD-SAMPLE" sample />
         </Reveal>
       </div>
@@ -65,14 +65,14 @@ export function TokenSlip({
   sample?: boolean;
 }) {
   return (
-    <div className="relative mx-auto max-w-sm -rotate-2 shadow-[0_30px_50px_-20px_rgb(15_26_27/0.35)]">
-      <div className="bg-white px-8 pt-8 pb-6">
+    <div className="relative mx-auto w-full max-w-sm sm:-rotate-2 shadow-[0_30px_50px_-20px_rgb(15_26_27/0.35)]">
+      <div className="bg-white px-6 pt-7 pb-6 sm:px-8 sm:pt-8">
         <div className="flex items-center justify-between">
           <LogoMark className="size-9" />
           <span className="label-mono text-ink-mute">{sample ? "Sample token" : "Token slip"}</span>
         </div>
         <p className="mt-8 label-mono text-ink-mute">Token no.</p>
-        <p className="font-display text-[7rem] leading-[0.85] text-teal-800">{String(token).padStart(2, "0")}</p>
+        <p className="font-display text-[clamp(5rem,24vw,7rem)] leading-[0.85] text-teal-800">{String(token).padStart(2, "0")}</p>
         <dl className="mt-6 grid grid-cols-2 gap-4 text-sm">
           <div>
             <dt className="label-mono text-ink-mute">Date</dt>
@@ -91,7 +91,7 @@ export function TokenSlip({
         </dl>
       </div>
       <div className="perforated bg-white" aria-hidden />
-      <div className="flex items-center justify-between bg-white px-8 pt-3 pb-6">
+      <div className="flex flex-wrap items-center justify-between gap-2 bg-white px-6 pt-3 pb-6 sm:px-8">
         <span className="font-mono text-sm tracking-widest">{code}</span>
         <span className="flex items-center gap-1.5 text-xs text-ink-mute">
           <span className="size-2 rounded-full bg-whatsapp" /> Sent on WhatsApp

@@ -145,9 +145,9 @@ export function Hero() {
           </div>
 
           {/* Scrubber */}
-          <div className="mt-4 flex items-center gap-3 sm:gap-4">
+          <div className="mt-4 grid grid-cols-[auto_1fr_auto] items-center gap-x-3 gap-y-3 sm:flex sm:gap-4">
             <span className="label-mono text-ink-mute">Crowded</span>
-            <div className="relative h-9 flex-1">
+            <div className="relative h-11 flex-1 touch-none sm:h-9">
               <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-ink/15" />
               <div className="ruler absolute inset-x-0 top-1/2 -translate-y-full text-ink" aria-hidden />
               <motion.div className="absolute top-1/2 left-0 h-0.5 -translate-y-1/2 bg-crimson" style={{ width: fill }} />
@@ -178,7 +178,7 @@ export function Hero() {
             <button
               type="button"
               onClick={() => play()}
-              className="inline-flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 label-mono text-ink-soft transition hover:border-ink hover:text-ink"
+              className="col-span-3 inline-flex items-center justify-self-center gap-1.5 rounded-full border border-ink/15 px-4 py-2 label-mono sm:col-auto sm:px-3 sm:py-1.5 text-ink-soft transition hover:border-ink hover:text-ink"
             >
               <RotateCcw className="size-3" /> Replay
             </button>
