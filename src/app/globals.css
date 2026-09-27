@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+/* ==================================================================
+   Align Aesthetic — design tokens
+
+   Porcelain & Emerald, tuned to the clinic's own signboard:
+     • porcelain — the white of the sign and the clinic walls
+     • teal      — the "ALIGN" wordmark and tooth outline (deep, slate-teal)
+     • crimson   — the star over the i and "AESTHETIC DENTAL HUB"
+   Crimson is an accent only: the star, the booking action, the one thing on a
+   screen that should be pressed. Everything else is porcelain, ink and teal.
+
+   The visual motif is measurement — hairline rules, ruler ticks and mono
+   labels — because the practice is orthodontics and Dr. Nikita's research was
+   on measuring smile proportions. It is structure, not decoration.
+   ================================================================== */
+
+@theme {
+  --color-porcelain: #fbfaf7;
+  --color-paper: #f3f0e9;
+  --color-bone: #e7e2d7;
+  --color-ink: #0f1a1b;
+  --color-ink-soft: #3d4a4b;
+  --color-ink-mute: #6b7677;
+
+  --color-teal-50: #eef6f5;
+  --color-teal-100: #d7ebe8;
+  --color-teal-200: #b0d6d1;
+  --color-teal-300: #82bdb7;
+  --color-teal-400: #4f9b96;
+  --color-teal-500: #2f7d7a;
+  --color-teal-600: #216466;
+  --color-teal-700: #194f53;
+  --color-teal-800: #133f44;
+  --color-teal-900: #0d3237;
+  --color-teal-950: #072226;
+
+  --color-crimson: #c8243f;
+  --color-crimson-dark: #a51b33;
+  --color-blush: #f6dfe3;
+
+  --color-whatsapp: #25d366;
+
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@utility container-page {
+  width: min(1240px, 100% - 2.5rem);
+  margin-inline: auto;
+}
+
+/* Mono micro-label used for section indices, specs and ruler annotations. */
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* A hairline rule with ruler ticks every 8px and a longer tick every 40px. */
+@utility ruler {
+  background-image:
+    linear-gradient(to right, currentColor 1px, transparent 1px),
+    linear-gradient(to right, currentColor 1px, transparent 1px);
+  background-size: 8px 5px, 40px 10px;
+  background-repeat: repeat-x;
+  background-position: left bottom;
+  height: 10px;
+  opacity: 0.35;
+}
+
+@utility hairline {
+  border-color: color-mix(in srgb, currentColor 16%, transparent);
+}
+
+/* ------------------------------------------------------------------
+   Scroll reveal — CSS-only, visible by default (see ui/reveal.tsx).
+   ------------------------------------------------------------------ */
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translate3d(var(--reveal-x, 0), var(--reveal-y, 1.25rem), 0);
+    clip-path: inset(0 0 var(--reveal-clip, 0%) 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    [data-reveal] {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry calc(4% + var(--reveal-i, 0) * 4%) entry calc(58% + var(--reveal-i, 0) * 4%);
+    }
+    [data-reveal-group] > *:nth-child(1) { --reveal-i: 0; }
+    [data-reveal-group] > *:nth-child(2) { --reveal-i: 1; }
+    [data-reveal-group] > *:nth-child(3) { --reveal-i: 2; }
+    [data-reveal-group] > *:nth-child(4) { --reveal-i: 3; }
+    [data-reveal-group] > *:nth-child(5) { --reveal-i: 4; }
+    [data-reveal-group] > *:nth-child(n + 6) { --reveal-i: 5; }
+  }
+}
+
+@keyframes star-pulse {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(0.72) rotate(45deg); opacity: 0.75; }
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+@layer base {
+  * { scroll-margin-top: 6rem; }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-porcelain);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+
+  p { text-wrap: pretty; }
+
+  ::selection {
+    background: var(--color-teal-200);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-crimson);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+.star-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: star-pulse 3.2s ease-in-out infinite;
+}
+
+/* Perforated edge for the token slip. */
+.perforated {
+  background-image: radial-gradient(circle at 8px 50%, var(--color-porcelain) 5px, transparent 5.5px);
+  background-size: 16px 16px;
+  background-repeat: repeat-x;
+  height: 16px;
+}
+
+.prose-clinic p { margin-top: 1em; line-height: 1.75; color: var(--color-ink-soft); }
+.prose-clinic strong { color: var(--color-ink); font-weight: 600; }
