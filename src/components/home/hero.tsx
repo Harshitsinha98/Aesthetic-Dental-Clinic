@@ -57,7 +57,7 @@ export function Hero() {
 
   return (
     <section className="relative" aria-labelledby="hero-title">
-      <div className="container-page grid gap-12 pt-10 pb-10 lg:min-h-[calc(100svh-13rem)] lg:grid-cols-12 lg:items-center lg:gap-10 lg:pt-[clamp(1.25rem,3svh,2.5rem)]">
+      <div className="container-page grid gap-12 pt-12 pb-10 lg:min-h-[calc(100svh-13rem)] lg:grid-cols-12 lg:items-center lg:gap-10 lg:pt-[clamp(1.25rem,3svh,2.5rem)]">
         <div className="lg:col-span-6">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -65,7 +65,10 @@ export function Hero() {
             transition={{ duration: 0.7, ease }}
             className="label-mono text-ink-mute"
           >
-            Orthodontics · Smile design · Advanced dentistry
+            <span className="whitespace-nowrap">Orthodontics · Smile design</span>
+            <span className="hidden sm:inline"> · </span>
+            <br className="sm:hidden" />
+            <span className="whitespace-nowrap">Advanced dentistry</span>
           </motion.p>
 
           <h1 id="hero-title" className="mt-5 text-[clamp(2.7rem,min(5.3vw,10.5svh),5.6rem)] leading-[0.96]">
@@ -93,10 +96,10 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5, ease }}
-            className="mt-[clamp(1.25rem,3.5svh,2rem)] flex max-w-lg items-center gap-4"
+            className="mt-[clamp(1.25rem,3.5svh,2rem)] flex max-w-lg items-start gap-4 sm:items-center"
           >
-            <Link href="/about" className="relative block h-[4.5rem] w-14 shrink-0 overflow-hidden rounded-t-full bg-paper ring-1 ring-ink/10" aria-label={`About ${doctor.name}`}>
-              <Image src="/images/doctor/portrait-desk.jpg" alt="" fill priority sizes="56px" className="object-cover object-top" />
+            <Link href="/about" className="relative mt-1 block h-[5.25rem] w-16 shrink-0 overflow-hidden rounded-t-full bg-paper ring-1 ring-ink/10 sm:mt-0 sm:h-[4.5rem] sm:w-14" aria-label={`About ${doctor.name}`}>
+              <Image src="/images/doctor/portrait-desk.jpg" alt="" fill priority sizes="64px" className="scale-[1.6] object-cover object-[50%_78%]" />
             </Link>
             <p className="text-[1.02rem] leading-relaxed text-ink-soft">
               {clinic.name} is the practice of <strong className="font-semibold text-ink">{doctor.name}</strong>, an orthodontist
@@ -108,18 +111,18 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.62, ease }}
-            className="mt-[clamp(1.5rem,4svh,2.25rem)] flex flex-wrap items-center gap-3"
+            className="mt-[clamp(1.5rem,4svh,2.25rem)] grid gap-3 sm:flex sm:flex-wrap sm:items-center"
           >
             <Link
               href="/book"
-              className="group inline-flex items-center gap-3 rounded-full bg-crimson py-3.5 pr-3.5 pl-6 font-medium text-white transition hover:bg-crimson-dark"
+              className="group inline-flex items-center justify-between gap-3 rounded-full bg-crimson py-3.5 pr-3.5 pl-6 font-medium text-white transition hover:bg-crimson-dark sm:justify-start"
             >
               Book a token
               <span className="grid size-7 place-items-center rounded-full bg-white/15 transition-transform duration-500 ease-out-soft group-hover:rotate-45">
                 <ArrowUpRight className="size-4" />
               </span>
             </Link>
-            <a href={telHref()} className="rounded-full border border-ink/15 px-6 py-3.5 font-medium transition hover:border-ink">
+            <a href={telHref()} className="rounded-full border border-ink/15 px-6 py-3.5 text-center font-medium transition hover:border-ink">
               Call {clinic.phoneDisplay}
             </a>
           </motion.div>

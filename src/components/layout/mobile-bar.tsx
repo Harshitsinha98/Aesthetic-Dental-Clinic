@@ -2,16 +2,28 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { MessageCircleQuestion, Phone } from "lucide-react";
 import { telHref, whatsappHref } from "@/lib/clinic";
 
 /** Thumb-reach actions on phones. Hidden on the booking flow and admin. */
 export function MobileBar() {
   const pathname = usePathname();
+  // On the home page the hero already has Book / Call buttons, so the bar
+  // slides in only once they have scrolled out of view.
+  const [show, setShow] = useState(pathname !== "/");
+  useEffect(() => {
+    if (pathname !== "/") return setShow(true);
+    const onScroll = () => setShow(window.scrollY > 520);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [pathname]);
   if (pathname.startsWith("/admin") || pathname.startsWith("/book")) return null;
 
   return (
-    <div className="fixed inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-40 flex gap-2 rounded-full bg-ink/95 p-1.5 shadow-[0_18px_40px_-12px_rgb(15_26_27/0.5)] backdrop-blur lg:hidden">
+    <div aria-hidden={!show}
+      className={`fixed inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-40 flex transition-[transform,opacity] duration-500 ease-out-soft ${show ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-[calc(100%+1.5rem)] opacity-0"} gap-2 rounded-full bg-ink/95 p-1.5 shadow-[0_18px_40px_-12px_rgb(15_26_27/0.5)] backdrop-blur lg:hidden`}>
       <a href={telHref()} aria-label="Call the clinic" className="grid size-12 place-items-center rounded-full text-porcelain">
         <Phone className="size-5" />
       </a>
