@@ -49,6 +49,15 @@ export function Assistant() {
   const [messages, setMessages] = useState<Msg[]>([GREETING]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  // The launcher waits until the visitor scrolls past the hero, so it never
+  // sits on top of the hero controls on a short laptop screen.
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 480 || pathname !== "/");
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [pathname]);
   const scroller = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -96,7 +105,7 @@ export function Assistant() {
   return (
     <>
       <AnimatePresence>
-        {!open && (
+        {!open && scrolled && (
           <motion.button
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
