@@ -17,7 +17,6 @@
 
 import { storageStatus } from "@/lib/db";
 import { SCHEDULE_CONFIRMED } from "@/lib/schedule";
-import { isWhatsAppConfigured } from "@/lib/whatsapp";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -57,8 +56,11 @@ export async function GET() {
        * advertises the page believing the times are confirmed.
        */
       scheduleConfirmed: SCHEDULE_CONFIRMED,
-      whatsapp: isWhatsAppConfigured() ? "live" : "test-mode (messages are logged to the admin outbox)",
-      googleReviews: process.env.GOOGLE_PLACES_API_KEY ? "configured" : "not configured",
+      googleReviews: process.env.GBP_REFRESH_TOKEN
+        ? "business-profile (all reviews)"
+        : process.env.GOOGLE_PLACES_API_KEY
+          ? "places (up to 5 live reviews)"
+          : "saved list only",
       warnings: [
         ...(status.ephemeral
           ? [

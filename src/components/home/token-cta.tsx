@@ -22,7 +22,7 @@ export function TokenCta() {
             {[
               ["Pick a day", `Any day in the next ${BOOKING_WINDOW_DAYS}. The clinic is open all seven.`],
               ["Pick a time", `Each token is a ${SLOT_MINUTES}-minute slot. Token number = your place in the day.`],
-              ["Get it on WhatsApp", "The confirmation reaches you, and Dr. Nikita is told you’re coming."],
+              ["Keep your token", "Save it as an image, add it to your calendar or share it. The front desk sees it instantly."],
             ].map(([t, d], i) => (
               <li key={t} className="grid grid-cols-[2.5rem_1fr] gap-4 border-t border-ink/10 pt-5">
                 <span className="label-mono pt-1 text-crimson">{String(i + 1).padStart(2, "0")}</span>
@@ -94,7 +94,7 @@ export function TokenSlip({
       <div className="flex flex-wrap items-center justify-between gap-2 bg-white px-6 pt-3 pb-6 sm:px-8">
         <span className="font-mono text-sm tracking-widest">{code}</span>
         <span className="flex items-center gap-1.5 text-xs text-ink-mute">
-          <span className="size-2 rounded-full bg-whatsapp" /> Sent on WhatsApp
+          <span className="size-2 rounded-full bg-teal-500" /> Show at the front desk
         </span>
       </div>
     </div>

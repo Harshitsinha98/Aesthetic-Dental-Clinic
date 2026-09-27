@@ -3,7 +3,7 @@ import { clinic } from "@/lib/clinic";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: [{ userAgent: "*", allow: "/", disallow: ["/admin", "/api", "/my-token"] }],
+    rules: [{ userAgent: "*", allow: "/", disallow: ["/admin", "/api", "/my-token", "/queue"] }],
     sitemap: `${clinic.siteUrl}/sitemap.xml`,
   };
 }

@@ -5,11 +5,9 @@
  * number it was booked with, so a leaked code alone cannot cancel a token.
  */
 
-import { after } from "next/server";
 import { z } from "zod";
 import { cancelAppointment } from "@/lib/booking";
 import { requireStorage } from "@/lib/api-guard";
-import { notifyCancelled } from "@/lib/notify";
 import { clientKey, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
@@ -57,9 +55,6 @@ export async function POST(request: Request) {
         : "No booking found for that code and mobile number.";
     return Response.json({ ok: false, error: message }, { status });
   }
-
-  const cancelled = result.appointment;
-  after(() => notifyCancelled(cancelled, "patient").then(() => undefined));
 
   return Response.json({
     ok: true,

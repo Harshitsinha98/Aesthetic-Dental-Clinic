@@ -28,7 +28,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const facts = [
   ["Orthodontist", "BDS · MDS, Orthodontics & Dentofacial Orthopaedics"],
   ["Open all 7 days", "10 am – 2 pm & 5 – 9 pm · Wednesday 10 am – 9 pm"],
-  ["Online tokens", "Pick a 15-minute slot, get it on WhatsApp"],
+  ["Online tokens", "Pick a 15-minute slot, your number is confirmed instantly"],
 ];
 
 export function Hero() {

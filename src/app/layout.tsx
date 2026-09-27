@@ -23,7 +23,7 @@ const plexMono = IBM_Plex_Mono({
 
 const title = "Align Aesthetic Dental Hub — Orthodontist & Dentist in Bhopal | Dr. Nikita Soni";
 const description =
-  "Braces, clear aligners, smile design, implants, root canal and laser dentistry by Dr. Nikita Soni, BDS, MDS (Orthodontics), at New Minal Residency, JK Road, Bhopal. Open all 7 days. Book a token online and get it on WhatsApp.";
+  "Braces, clear aligners, smile design, implants, root canal and laser dentistry by Dr. Nikita Soni, BDS, MDS (Orthodontics), at New Minal Residency, JK Road, Bhopal. Open all 7 days. Book a token online in under a minute.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(clinic.siteUrl),

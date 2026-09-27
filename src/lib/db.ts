@@ -130,23 +130,6 @@ const SCHEMA: string[] = [
 
   `CREATE INDEX IF NOT EXISTS appointments_phone
       ON appointments (patient_phone, date)`,
-
-  /* Every outbound WhatsApp message is recorded here first — sent, failed, or
-     only logged because no credentials are configured yet. The admin screen
-     reads it, so staff can see exactly what the patient and doctor received. */
-  `CREATE TABLE IF NOT EXISTS wa_outbox (
-      id          INTEGER PRIMARY KEY AUTOINCREMENT,
-      to_phone    TEXT NOT NULL,
-      body        TEXT NOT NULL,
-      kind        TEXT NOT NULL DEFAULT 'text',
-      audience    TEXT,
-      reference   TEXT,
-      status      TEXT NOT NULL,
-      error       TEXT,
-      created_at  TEXT NOT NULL
-   )`,
-
-  `CREATE INDEX IF NOT EXISTS wa_outbox_ref ON wa_outbox (reference)`,
 ];
 
 /* ------------------------------------------------------------------ */
@@ -427,7 +410,6 @@ export async function resetDbForTests() {
 export async function wipeAllData() {
   const sql = await db();
   await sql.run(`DELETE FROM appointments`);
-  await sql.run(`DELETE FROM wa_outbox`);
 }
 
 /* ------------------------------------------------------------------ */

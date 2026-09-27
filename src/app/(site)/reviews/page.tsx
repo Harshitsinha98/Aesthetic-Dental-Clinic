@@ -19,7 +19,7 @@ export default function ReviewsPage() {
         lede="These reviews are pulled live from our Google Business Profile. We don’t write, edit or pick them — and if you’ve visited, we’d be grateful for yours."
       />
       <section className="container-page py-14 lg:py-20">
-        <GoogleReviews limit={5} />
+        <GoogleReviews />
       </section>
     </>
   );

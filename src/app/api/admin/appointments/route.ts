@@ -1,12 +1,13 @@
 /**
- * Front-desk token register.
+ * Front-desk token register (reception + doctor).
  *
- * GET   /api/admin/appointments?date=YYYY-MM-DD  — the day's tokens + WhatsApp outbox
- * PATCH /api/admin/appointments                  — mark seen / no-show / cancel
+ * GET   /api/admin/appointments?date=YYYY-MM-DD  — the day's tokens, in clock order
+ * GET   /api/admin/appointments?q=…              — find a booking on any date by
+ *                                                  code, mobile number or name
+ * PATCH /api/admin/appointments                  — mark seen / no-show / undo / cancel
  * POST  /api/admin/appointments                  — issue a token for a walk-in or phone call
  */
 
-import { after } from "next/server";
 import { z } from "zod";
 import { authFailureResponse, checkAdminAuth } from "@/lib/admin-auth";
 import { requireStorage } from "@/lib/api-guard";
@@ -16,58 +17,64 @@ import {
   dayStats,
   formatPhoneDisplay,
   listAppointments,
-  queuePosition,
+  searchAppointments,
   setAppointmentStatus,
+  type Appointment,
 } from "@/lib/booking";
 import { storageStatus } from "@/lib/db";
-import { notifyBooked, notifyCancelled } from "@/lib/notify";
 import { istDateKey, isValidDateKey } from "@/lib/time";
-import { doctorWhatsAppNumber, isWhatsAppConfigured, recentOutbox } from "@/lib/whatsapp";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+function toDto(a: Appointment) {
+  return {
+    reference: a.reference,
+    tokenNumber: a.tokenNumber,
+    date: a.date,
+    slotStart: a.slotStart,
+    slotEnd: a.slotEnd,
+    patientName: a.patientName,
+    patientPhone: formatPhoneDisplay(a.patientPhone),
+    patientAge: a.patientAge,
+    patientGender: a.patientGender,
+    reason: a.reason,
+    channel: a.channel,
+    status: a.status,
+    createdAt: a.createdAt,
+  };
+}
 
 export async function GET(request: Request) {
   const auth = checkAdminAuth(request);
   if (!auth.ok) return authFailureResponse(auth);
 
-  const date = new URL(request.url).searchParams.get("date") ?? istDateKey();
-  if (!isValidDateKey(date)) {
-    return Response.json({ ok: false, error: "Invalid date." }, { status: 400 });
-  }
+  const params = new URL(request.url).searchParams;
 
   const unavailable = await requireStorage();
   if (unavailable) return unavailable.response;
 
-  const [all, stats, outbox, storage] = await Promise.all([
-    listAppointments({ date }),
-    dayStats(date),
-    recentOutbox(40),
-    storageStatus(),
-  ]);
+  const q = params.get("q");
+  if (q !== null) {
+    const results = await searchAppointments(q);
+    return Response.json({ ok: true, results: results.map(toDto) }, { headers: { "Cache-Control": "no-store" } });
+  }
+
+  const date = params.get("date") ?? istDateKey();
+  if (!isValidDateKey(date)) {
+    return Response.json({ ok: false, error: "Invalid date." }, { status: 400 });
+  }
+
+  const [all, stats, storage] = await Promise.all([listAppointments({ date }), dayStats(date), storageStatus()]);
 
   return Response.json(
     {
       ok: true,
       date,
+      today: istDateKey(),
       stats,
-      tokens: all.map((a) => ({
-        reference: a.reference,
-        tokenNumber: a.tokenNumber,
-        slotStart: a.slotStart,
-        slotEnd: a.slotEnd,
-        patientName: a.patientName,
-        patientPhone: formatPhoneDisplay(a.patientPhone),
-        patientAge: a.patientAge,
-        patientGender: a.patientGender,
-        reason: a.reason,
-        channel: a.channel,
-        status: a.status,
-      })),
-      outbox,
+      tokens: all.map(toDto),
       health: {
-        whatsapp: isWhatsAppConfigured() ? "live" : "test-mode",
-        doctorNumber: formatPhoneDisplay(doctorWhatsAppNumber()),
         storage: storage.ready
           ? { backend: storage.backend, ephemeral: storage.ephemeral }
           : { backend: "unavailable", ephemeral: false },
@@ -96,17 +103,16 @@ export async function PATCH(request: Request) {
 
   const { reference, status } = parsed.data;
 
+  // Cancelling goes through the engine so the slot is released back to the pool.
   if (status === "cancelled") {
     const result = await cancelAppointment(reference, null);
     if (!result.ok) return Response.json({ ok: false, error: result.message }, { status: 404 });
-    const cancelled = result.appointment;
-    after(() => notifyCancelled(cancelled, "clinic").then(() => undefined));
-    return Response.json({ ok: true, appointment: cancelled });
+    return Response.json({ ok: true, appointment: toDto(result.appointment) });
   }
 
   const updated = await setAppointmentStatus(reference, status);
   if (!updated) return Response.json({ ok: false, error: "Booking not found." }, { status: 404 });
-  return Response.json({ ok: true, appointment: updated });
+  return Response.json({ ok: true, appointment: toDto(updated) });
 }
 
 const walkInSchema = z.object({
@@ -116,7 +122,6 @@ const walkInSchema = z.object({
   patientPhone: z.string().trim().min(6),
   reason: z.string().trim().max(400).nullish(),
   channel: z.enum(["walk_in", "phone"]).default("walk_in"),
-  notify: z.boolean().default(true),
 });
 
 export async function POST(request: Request) {
@@ -144,12 +149,5 @@ export async function POST(request: Request) {
   if (!result.ok) {
     return Response.json({ ok: false, error: result.message, reason: result.reason }, { status: 409 });
   }
-
-  if (input.notify) {
-    const appointment = result.appointment;
-    const ahead = await queuePosition(appointment);
-    after(() => notifyBooked(appointment, ahead).then(() => undefined));
-  }
-
-  return Response.json({ ok: true, appointment: result.appointment }, { status: 201 });
+  return Response.json({ ok: true, appointment: toDto(result.appointment) }, { status: 201 });
 }

@@ -592,3 +592,51 @@ export async function dayStats(date: DateKey) {
     available: availability.availableCount,
   };
 }
+
+
+/* ------------------------------------------------------------------ */
+/* Front desk: search and the waiting-room queue                       */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Finds bookings on any date by booking code, mobile number or name — for the
+ * patient who lost their code and is standing at the counter.
+ */
+export async function searchAppointments(query: string): Promise<Appointment[]> {
+  const q = query.trim();
+  if (q.length < 2) return [];
+  const sql = await db();
+  const phone = normalisePhone(q);
+  const key = patientKey(q);
+  const rows = await sql.all<AppointmentRow>(
+    `SELECT * FROM appointments
+      WHERE doctor_id = ?
+        AND (reference = ? OR patient_phone = ? OR (? != '' AND patient_key LIKE ?))
+      ORDER BY date DESC, slot_index ASC LIMIT 40`,
+    [DOCTOR_ID, q.toUpperCase(), phone ?? "", key, `%${key}%`],
+  );
+  return rows.map(mapRow);
+}
+
+export type QueueSnapshot = {
+  date: DateKey;
+  /** The earliest token not yet seen / marked absent — who should be in the chair. */
+  current: { token: number; time: string } | null;
+  next: { token: number; time: string }[];
+  seen: number;
+  waiting: number;
+};
+
+/** Token numbers only — no names or phone numbers — safe for a public screen. */
+export async function queueSnapshot(date: DateKey = istDateKey()): Promise<QueueSnapshot> {
+  const all = (await listAppointments({ date })).filter((a) => a.status !== "cancelled");
+  const pending = all.filter((a) => a.status === "confirmed");
+  const toItem = (a: Appointment) => ({ token: a.tokenNumber, time: formatTime12h(a.slotStart) });
+  return {
+    date,
+    current: pending[0] ? toItem(pending[0]) : null,
+    next: pending.slice(1, 5).map(toItem),
+    seen: all.filter((a) => a.status === "completed").length,
+    waiting: pending.length,
+  };
+}
