@@ -64,6 +64,7 @@ export const viewport: Viewport = {
   themeColor: "#072226",
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
 };
 
 function structuredData() {

@@ -19,7 +19,7 @@ export default function ContactPage() {
           <Image src="/images/clinic/signboard.jpg" alt="The Align Aesthetic Dental Hub signboard" fill priority sizes="100vw" className="object-cover" />
         </Reveal>
       </section>
-      <Visit index="→" />
+      <Visit index="01" />
     </>
   );
 }

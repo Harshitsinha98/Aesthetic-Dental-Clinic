@@ -159,8 +159,18 @@ export function BookingWizard() {
                 {String(i + 1).padStart(2, "0")} · {s}
               </span>
               <span className="mt-1 block truncate text-sm text-ink-soft">
-                {i === 0 && selectedDate && step > 0 ? selectedDate.label : null}
-                {i === 1 && selectedSlot && step > 1 ? `${selectedSlot.startLabel} · Token ${selectedSlot.token}` : null}
+                {i === 0 && selectedDate && step > 0 ? (
+                  <>
+                    <span className="sm:hidden">{selectedDate.weekday} {selectedDate.dayNumber} {selectedDate.month}</span>
+                    <span className="hidden sm:inline">{selectedDate.label}</span>
+                  </>
+                ) : null}
+                {i === 1 && selectedSlot && step > 1 ? (
+                  <>
+                    <span className="sm:hidden">{selectedSlot.startLabel}</span>
+                    <span className="hidden sm:inline">{selectedSlot.startLabel} · Token {selectedSlot.token}</span>
+                  </>
+                ) : null}
               </span>
               <span className="absolute inset-x-0 -bottom-px h-0.5 bg-ink/0">
                 {i <= step && <motion.span layoutId={i === step ? "step-bar" : undefined} className={cn("block h-full", i === step ? "bg-crimson" : "bg-ink")} />}
