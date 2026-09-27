@@ -12,9 +12,11 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowLeft, ArrowUpRight, Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import { TokenSlip } from "@/components/home/token-cta";
-import { clinic, whatsappHref } from "@/lib/clinic";
+import { SaveTokenActions } from "@/components/booking/save-token";
+import { clinic, telHref } from "@/lib/clinic";
+import { dateLabel, saveToken, to12h, type SavedToken } from "@/lib/token-save";
 import { cn } from "@/lib/cn";
 
 type SlotDto = {
@@ -43,16 +45,13 @@ type Booked = {
   tokenNumber: number;
   date: string;
   slotStart: string;
+  slotEnd: string;
   patientName: string;
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const STEPS = ["Day", "Time", "Details"];
 
-function to12h(t: string) {
-  const [h, m] = t.split(":").map(Number);
-  return `${h % 12 || 12}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
-}
 
 export function BookingWizard() {
   const [step, setStep] = useState(0);
@@ -63,7 +62,7 @@ export function BookingWizard() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [booked, setBooked] = useState<{ appt: Booked; ahead: number; note: string | null } | null>(null);
+  const [booked, setBooked] = useState<{ appt: Booked; ahead: number; note: string | null; phone: string } | null>(null);
 
   const [form, setForm] = useState({ name: "", phone: "", age: "", gender: "", reason: "", website: "" });
   const abort = useRef<AbortController | null>(null);
@@ -132,7 +131,7 @@ export function BookingWizard() {
         }
         return;
       }
-      setBooked({ appt: data.appointment, ahead: data.queueAhead ?? 0, note: data.note });
+      setBooked({ appt: data.appointment, ahead: data.queueAhead ?? 0, note: data.note, phone: form.phone });
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
       setError("Network problem. Your token was not booked — please try again.");
@@ -283,13 +282,13 @@ export function BookingWizard() {
             <h2 className="text-3xl">
               Token {selectedSlot?.token} · {selectedSlot?.startLabel}
             </h2>
-            <p className="mt-2 text-ink-mute">{selectedDate?.label}. Your confirmation will arrive on WhatsApp at this number.</p>
+            <p className="mt-2 text-ink-mute">{selectedDate?.label}. Your token number appears on the next screen — you can save it to your phone.</p>
 
             <div className="mt-8 grid gap-x-6 gap-y-6 sm:grid-cols-2">
               <Field label="Patient’s full name" className="sm:col-span-2">
                 <input required minLength={2} maxLength={80} autoComplete="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={input} />
               </Field>
-              <Field label="Mobile number (WhatsApp)">
+              <Field label="Mobile number">
                 <input required type="tel" inputMode="tel" autoComplete="tel" placeholder="98xxx xxxxx" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className={input} />
               </Field>
               <div className="grid grid-cols-2 gap-4">
@@ -342,47 +341,67 @@ function Loading() {
   );
 }
 
-function Success({ booked, onAgain }: { booked: { appt: Booked; ahead: number; note: string | null }; onAgain: () => void }) {
+function Success({ booked, onAgain }: { booked: { appt: Booked; ahead: number; note: string | null; phone: string }; onAgain: () => void }) {
   const { appt, ahead, note } = booked;
-  const d = new Date(`${appt.date}T00:00:00Z`);
-  const dateLabel = d.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
-  const message = `Align Aesthetic Dental Hub — Token #${appt.tokenNumber}\nDate: ${dateLabel}\nTime: ${to12h(appt.slotStart)}\nPatient: ${appt.patientName}\nCode: ${appt.reference}`;
+  const token: SavedToken = {
+    reference: appt.reference,
+    tokenNumber: appt.tokenNumber,
+    date: appt.date,
+    slotStart: appt.slotStart,
+    slotEnd: appt.slotEnd,
+    patientName: appt.patientName,
+    phone: booked.phone,
+    savedAt: "",
+  };
+
+  // Kept on this phone automatically, so "My token" shows it without a code.
+  useEffect(() => {
+    saveToken(token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appt.reference]);
 
   return (
-    <div className="grid gap-14 pt-6 lg:grid-cols-12 lg:items-center">
+    <div className="grid gap-12 pt-6 lg:grid-cols-12 lg:items-center lg:gap-14">
       <motion.div
+        data-print
         className="lg:col-span-5"
         initial={{ clipPath: "inset(0 0 100% 0)", y: -30 }}
         animate={{ clipPath: "inset(0 0 0% 0)", y: 0 }}
         transition={{ duration: 1.1, ease }}
       >
-        <TokenSlip token={appt.tokenNumber} date={dateLabel} time={to12h(appt.slotStart)} code={appt.reference} name={appt.patientName} />
+        <TokenSlip token={appt.tokenNumber} date={dateLabel(appt.date)} time={to12h(appt.slotStart)} code={appt.reference} name={appt.patientName} />
       </motion.div>
       <motion.div className="lg:col-span-6 lg:col-start-7" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6, ease }}>
         <p className="label-mono text-teal-700">Token confirmed</p>
         <h2 className="mt-4 text-[clamp(2.2rem,4.5vw,3.6rem)] leading-none">See you at {to12h(appt.slotStart)}.</h2>
         <p className="mt-5 text-ink-soft">
-          The confirmation is on its way to your WhatsApp, and Dr. Nikita has been told you’re coming.{" "}
+          Your token is booked and the front desk can already see it.{" "}
           {ahead > 0 ? `${ahead} patient${ahead > 1 ? "s are" : " is"} booked before you that day.` : "You’re the first booking of the day so far."}{" "}
           Please arrive 10 minutes early.
         </p>
         {note && <p className="mt-4 text-sm text-crimson">{note}</p>}
-        <p className="mt-6 border-t border-ink/10 pt-5 text-sm text-ink-mute">
-          Keep your booking code <span className="font-mono text-ink">{appt.reference}</span> — you’ll need it with your mobile number to check or cancel under{" "}
-          <Link href="/my-token" className="underline">My token</Link>.
-        </p>
+
+        <div className="mt-8 border-t border-ink/10 pt-6">
+          <p className="label-mono text-ink-mute">Keep your token</p>
+          <p className="mt-2 text-sm text-ink-soft">
+            It’s already saved on this phone under <Link href="/my-token" className="font-medium text-ink underline">My token</Link>. To be safe, keep a copy too:
+          </p>
+          <div className="mt-4">
+            <SaveTokenActions token={token} />
+          </div>
+          <p className="mt-4 text-xs text-ink-mute">
+            Booking code <span className="font-mono text-ink">{appt.reference}</span>. Lost it? The front desk can find your token from your mobile number.
+          </p>
+        </div>
+
         <div className="mt-8 flex flex-wrap gap-3">
-          <a href={`https://wa.me/?text=${encodeURIComponent(message)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-medium text-porcelain">
-            Save to WhatsApp <ArrowUpRight className="size-4" />
-          </a>
-          <a href={whatsappHref(`Hi, I've booked token #${appt.tokenNumber} (${appt.reference}).`)} target="_blank" rel="noopener noreferrer" className="rounded-full border border-ink/20 px-5 py-3 text-sm font-medium">
-            Message the clinic
-          </a>
           <button onClick={onAgain} className="rounded-full border border-ink/20 px-5 py-3 text-sm font-medium">
             Book for someone else
           </button>
+          <a href={telHref()} className="rounded-full border border-ink/20 px-5 py-3 text-sm font-medium">
+            Call {clinic.phoneDisplay}
+          </a>
         </div>
-        <p className="mt-6 text-xs text-ink-mute">Questions? Call {clinic.phoneDisplay}.</p>
       </motion.div>
     </div>
   );

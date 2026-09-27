@@ -3,7 +3,7 @@ import { BookingWizard } from "@/components/booking/booking-wizard";
 
 export const metadata: Metadata = {
   title: "Book a token",
-  description: "Book a 15-minute appointment token with Dr. Nikita Soni at Align Aesthetic Dental Hub, Bhopal. Confirmation on WhatsApp.",
+  description: "Book a 15-minute appointment token with Dr. Nikita Soni at Align Aesthetic Dental Hub, Bhopal. Your token number is confirmed instantly.",
   alternates: { canonical: "/book" },
   robots: { index: true, follow: true },
 };

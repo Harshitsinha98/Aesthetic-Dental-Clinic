@@ -183,3 +183,11 @@
 
 .prose-clinic p { margin-top: 1em; line-height: 1.75; color: var(--color-ink-soft); }
 .prose-clinic strong { color: var(--color-ink); font-weight: 600; }
+
+/* Printing from the success screen prints just the token slip. */
+@media print {
+  body:has([data-print]) * { visibility: hidden !important; }
+  [data-print], [data-print] * { visibility: visible !important; }
+  [data-print] { position: absolute; inset: 0 auto auto 0; width: 100%; clip-path: none !important; transform: none !important; }
+  [data-print] > * { transform: none !important; box-shadow: none !important; margin: 0 auto; }
+}

@@ -2,7 +2,7 @@
 
 Website and online token system for **Dr. Nikita Soni, BDS, MDS (Orthodontics & Dentofacial Orthopaedics)**, JK Road, Bhopal.
 
-Next.js 16 · React 19 · Tailwind CSS v4 · Motion · Turso/SQLite · WhatsApp Cloud API · Google Places API.
+Next.js 16 · React 19 · Tailwind CSS v4 · Motion · Turso/SQLite · Google Business Profile / Places API.
 
 ```bash
 npm install
@@ -22,8 +22,8 @@ npm run build
 | `src/lib/gallery.ts` | Published photos. `SHOW_PATIENT_PHOTOS = false` hides every photo with a patient in it. |
 | `src/lib/schedule.ts` | Hours, 15-minute slots, holidays (`blackoutDates`) and "hours may differ" notes. |
 | `src/lib/booking.ts`, `db.ts` | Token engine. A partial UNIQUE index makes double-booking impossible at the database level. |
-| `src/lib/notify.ts`, `whatsapp.ts` | WhatsApp messages to the patient and the doctor. |
-| `src/lib/reviews.ts` | Live Google reviews. |
+| `src/lib/token-save.ts` | Patient-side saving: on-device list, token image, calendar, share / SMS draft. |
+| `src/lib/reviews.ts`, `reviews-saved.ts` | Google reviews for the carousel (all via Business Profile API, or 5 live + hand-copied list). |
 | `src/lib/ai.ts` | Align Assistant (works without a key). |
 | `scripts/prepare-images.py` | Rebuilds `public/images` from `photos/originals` (strips EXIF/GPS). |
 
@@ -32,41 +32,49 @@ Pages: `/`, `/treatments`, `/treatments/[slug]`, `/technology`, `/about`, `/gall
 ## Tokens
 
 - The day is split into 15-minute slots: 32 tokens a day, or 44 on Wednesday (10 am–9 pm, no break). Token number = slot position, so it also tells the patient when to come.
-- Patients can book up to 14 days ahead, as long as the slot starts at least 20 minutes from now. One live token per patient per day, but family members sharing a phone can each book.
-- **/admin**: the day's register. Buttons for Seen, No-show, Undo and Cancel. Staff can add walk-in or phone tokens, and the WhatsApp outbox shows every message that was sent or logged.
-- Patients check or cancel under **/my-token**, using the booking code plus their mobile number.
+- Booking up to 14 days ahead, as long as the slot starts at least 20 minutes from now. One live token per patient per day; family members sharing a phone can each book.
 - To close a date, add it to `blackoutDates` in `schedule.ts`.
 
-## WhatsApp: patient + doctor
+No WhatsApp or SMS is sent. Tokens are seen by the clinic on screen and kept by the patient on their phone.
 
-Every booking sends two messages: the **token card** to the patient and a **"new booking"** alert to `DOCTOR_WHATSAPP_NUMBER` (currently the test number `+91 96530 43939`). Cancellations notify both too. Without credentials, nothing is sent; the messages are only written to the outbox on /admin.
+### Reception & doctor — `/admin`
+Same passcode (`ADMIN_PASSCODE`) on the reception PC and the doctor's phone.
+- **Live:** refreshes every 20 seconds. A new booking shows a toast, plays a chime (can be muted), puts a count in the tab title, and, if turned on with the bell button, sends a desktop/phone notification while the page is open.
+- **Now serving:** the earliest token not yet seen, with **Seen · call next**, **No-show** and a call button, plus the next three.
+- **List:** All / Waiting / Seen / No-show / Cancelled filters. Table on desktop, cards on a phone. Print button for the day's list.
+- **Find patient:** search any date by mobile number, booking code or name, for a patient who lost their code.
+- **Walk-in:** issues the next free token for a walk-in or phone call.
 
-Going live:
+### Waiting-room screen — `/queue`
+Open on a TV or spare tablet. Shows **Now serving** and the next numbers, updating every 15 seconds. Token numbers only, never names or phone numbers.
 
-1. Go to Meta for Developers, create an app and add the **WhatsApp** product. Copy the *Phone number ID* and create a **permanent System User token**. Set `WHATSAPP_TOKEN` and `WHATSAPP_PHONE_NUMBER_ID`.
-2. Meta only delivers business-initiated messages as **approved templates**. In WhatsApp Manager, create four *Utility* templates (language `en`) with exactly these body variables, then put their names in the matching env vars:
+### Patient — keeping the token
+- Saved **automatically on the phone they booked from**. **/my-token** lists it with live status, no code needed, and they can cancel from there.
+- **Save token image** (PNG to the gallery/downloads), **Add to calendar** (Google, or .ics for iPhone/Outlook with a 1-hour reminder), **Share** (the phone's share sheet: WhatsApp, SMS or email to themselves or family), **Send by SMS** (opens their own Messages app pre-filled, free), and **Print**.
+- Lost everything? Reception finds the booking by mobile number.
 
-| Env var | Body variables, in order |
-|---|---|
-| `WHATSAPP_TEMPLATE_PATIENT_BOOKED` | {{1}} name · {{2}} token · {{3}} date · {{4}} time · {{5}} booking code |
-| `WHATSAPP_TEMPLATE_DOCTOR_BOOKED` | {{1}} token · {{2}} date & time · {{3}} patient · {{4}} mobile · {{5}} reason |
-| `WHATSAPP_TEMPLATE_PATIENT_CANCELLED` | {{1}} token · {{2}} date · {{3}} time |
-| `WHATSAPP_TEMPLATE_DOCTOR_CANCELLED` | {{1}} token · {{2}} date & time · {{3}} patient · {{4}} cancelled by |
+### Optional later: automatic SMS from the clinic
+Needs an Indian SMS provider (MSG91, Fast2SMS, 2Factor, Gupshup…) and **TRAI DLT registration**: register the business as a principal entity, get a 6-letter sender ID (e.g. `ALIGND`), and get the exact message template approved. This takes a few days, and costs roughly ₹0.15–0.30 per SMS plus a one-time DLT fee. Once you have the provider key, sender ID and template ID, sending an SMS after booking can be added to `POST /api/appointments`.
 
-   Example patient template: *"Hello {{1}}, your token {{2}} at Align Aesthetic Dental Hub is confirmed for {{3}} at {{4}}. Booking code: {{5}}. Please arrive 10 minutes early."*
-3. The sending number must be registered on the Cloud API. If that is 074770 03741, the doctor alert has to go to a **different** number, because a number cannot message itself.
-4. Meta charges per template message. Check current pricing for India in WhatsApp Manager.
+## All Google reviews (carousel)
 
-## Google reviews
+The carousel uses the first source that is configured:
 
-1. In Google Cloud, enable **Places API (New)**, create an API key restricted to that API, and turn on billing.
-2. Set `GOOGLE_PLACES_API_KEY`. `GOOGLE_PLACE_ID` is optional (the clinic is looked up by name).
-3. The page shows Google's rating, the total count, and **up to 5 reviews chosen by Google** (Google's limit), refreshed every 6 hours. Everything else is behind "Read all reviews on Google". Without a key, only the Google links are shown. No review text is ever made up.
+1. **Google Business Profile API: all reviews, auto-synced.** Needs the Google account that manages the clinic's Business Profile.
+   1. In Google Cloud, create a project and submit the **Business Profile API access request** (Google approves it, usually in a few days).
+   2. Once approved, enable *My Business Account Management API*, *My Business Business Information API* and *Google My Business API*.
+   3. Create an OAuth client (type *Web*, redirect `https://developers.google.com/oauthplayground`). In the [OAuth Playground](https://developers.google.com/oauthplayground), use your own client, authorise scope `https://www.googleapis.com/auth/business.manage` **with the clinic's Google account**, and exchange for a **refresh token**.
+   4. `GBP_CLIENT_ID=… GBP_CLIENT_SECRET=… GBP_REFRESH_TOKEN=… node scripts/gbp-ids.mjs` prints `GBP_ACCOUNT_ID` and `GBP_LOCATION_ID`.
+   5. Put all five `GBP_*` values in Vercel. Reviews refresh every 6 hours, including owner replies.
+2. **Places API (New): up to 5 live reviews** chosen by Google, plus the live rating and count. Set `GOOGLE_PLACES_API_KEY` (a server key: API restriction *Places API (New)*, application restriction *None*; billing enabled).
+3. **Hand-copied list:** paste real reviews into `src/lib/reviews-saved.ts`. This list is merged with (2), with duplicates removed.
+
+With none of these set, the section shows only the "Read all / Write a review" links. No review text is ever made up.
 
 ## Deploy (Vercel + Turso)
 
 1. `npm run setup:turso` (or create a database at turso.tech) and copy the URL and token.
-2. Import the repo into Vercel and add the env vars: at minimum `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `ADMIN_PASSCODE` and `NEXT_PUBLIC_SITE_URL`.
+2. Import the repo into Vercel and add the env vars: at minimum `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `ADMIN_PASSCODE` and `NEXT_PUBLIC_SITE_URL`. Add review keys if you have them.
 3. After deploying, open `/api/health`. It should say `bookingEnabled: true`.
 
 ## Still to confirm with the clinic

@@ -3,11 +3,10 @@
  * GET  /api/appointments?reference=AAD-XXXXXX&phone=…  — look one up
  *
  * The booking engine holds the no-overlap guarantee; this route translates HTTP
- * into an engine call, rate-limits abuse, and fires the WhatsApp notifications
- * to the patient and the doctor. A notification failure never undoes a booking.
+ * into an engine call and rate-limits abuse. The front desk sees new tokens
+ * live on /admin; the patient keeps theirs on the success screen / My token.
  */
 
-import { after } from "next/server";
 import { z } from "zod";
 import {
   bookAppointment,
@@ -17,10 +16,8 @@ import {
   type BookingFailureReason,
 } from "@/lib/booking";
 import { requireStorage } from "@/lib/api-guard";
-import { notifyBooked } from "@/lib/notify";
 import { clientKey, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 import { specialDateNotes } from "@/lib/schedule";
-import { isWhatsAppConfigured } from "@/lib/whatsapp";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -99,15 +96,6 @@ export async function POST(request: Request) {
   const { appointment } = result;
   const queueAhead = await queuePosition(appointment);
 
-  // Deliver the WhatsApp messages after the response is sent, so the patient
-  // sees their token immediately even if Meta's API is slow.
-  after(async () => {
-    const outcome = await notifyBooked(appointment, queueAhead);
-    if (!outcome.patient.ok || !outcome.doctor.ok) {
-      console.error("[booking] WhatsApp delivery issue", appointment.reference, outcome);
-    }
-  });
-
   return Response.json(
     {
       ok: true,
@@ -121,7 +109,6 @@ export async function POST(request: Request) {
       },
       queueAhead,
       note: specialDateNotes[appointment.date] ?? null,
-      whatsapp: isWhatsAppConfigured() ? "sent" : "test-mode",
     },
     { status: 201 },
   );

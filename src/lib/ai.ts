@@ -108,7 +108,8 @@ ${publishedInstruments.map((i) => `- ${i.name}: ${i.what}`).join("\n")}
 TOKENS / APPOINTMENTS
 - Book online on this website (the "Book a token" button). Pick a day, a ${SLOT_MINUTES}-minute time slot, and enter the patient's name and mobile number.
 - Tokens can be booked from today up to ${BOOKING_WINDOW_DAYS} days ahead. The token number matches the time slot.
-- The confirmation is sent on WhatsApp. To check or cancel, use "My token" on the website with the booking code and mobile number, or call ${clinic.phoneDisplay}.
+- The token number is shown immediately after booking. Patients can download it as an image, add it to their calendar, or share it; it is also saved automatically on the phone they booked from, under "My token". The front desk sees every booking live.
+- To check or cancel: "My token" on the website, or call ${clinic.phoneDisplay}. The front desk can also find a booking by mobile number.
 `.trim();
 }
 
@@ -332,7 +333,7 @@ export function fallbackAnswer(question: string): string {
   }
 
   if (has(q, ["book", "token", "appointment", "slot", "booking", "cancel", "my token"])) {
-    return `Tap **Book a token**, choose a day and a ${SLOT_MINUTES}-minute slot, and enter the patient’s name and mobile. Your token number and time arrive on WhatsApp. To check or cancel, use **My token** with your booking code.`;
+    return `Tap **Book a token**, choose a day and a ${SLOT_MINUTES}-minute slot, and enter the patient’s name and mobile. Your token number appears instantly — save it as an image, add it to your calendar, or find it later under **My token** on the same phone.`;
   }
 
   if (has(q, ["doctor", "nikita", "qualification", "degree", "mds", "bds", "orthodont", "who"])) {

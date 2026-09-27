@@ -78,7 +78,7 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="mt-24">
-            <GoogleReviews limit={3} />
+            <GoogleReviews />
           </div>
         </div>
       </section>
