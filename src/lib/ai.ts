@@ -95,7 +95,7 @@ ${weeklyHours.map((h) => `- ${h.day}: ${h.hours}`).join("\n")}
 
 DENTIST
 - ${doctor.name}, ${doctor.qualifications}
-- ${doctor.title}. ${doctor.registration}
+- ${doctor.title}, ${doctor.yearsOfExperience} years of clinical practice. ${doctor.registration}
 ${doctor.degrees.map((d) => `- ${d.degree} (${d.field}), ${d.institution}, ${d.university}, ${d.year}`).join("\n")}
 - Continuing education includes: ${learning.slice(0, 6).map((l) => l.title + (l.highlight ? ` (${l.highlight})` : "")).join("; ")}
 
