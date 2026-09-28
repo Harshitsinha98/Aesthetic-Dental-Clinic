@@ -45,6 +45,8 @@ export const doctor = {
   /** Signboard: "BDS, MDS (Orthodontist) · Braces / Aligner Specialist". */
   qualifications: "BDS, MDS (Orthodontics & Dentofacial Orthopaedics)",
   title: "Orthodontist · Braces & Aligner Specialist",
+  /** Confirmed by the clinic owner. */
+  yearsOfExperience: 3,
   /** Shown on the signboard itself. Validity dates are intentionally omitted. */
   registration: "MP State Dental Council · Reg. No. A-09775",
 
@@ -67,7 +69,7 @@ export const doctor = {
   ],
 
   bio: [
-    "Dr. Nikita Soni is an orthodontist — a dentist who has completed a further three-year specialist degree in moving teeth and guiding the growth of the jaws. She trained in Bhopal for her BDS and completed her MDS in Orthodontics & Dentofacial Orthopaedics at K.D. Dental College, Mathura.",
+    "Dr. Nikita Soni is an orthodontist with three years of clinical practice — a dentist who went on to a specialist postgraduate degree in moving teeth and guiding the growth of the jaws. She trained in Bhopal for her BDS and completed her MDS in Orthodontics & Dentofacial Orthopaedics at K.D. Dental College, Mathura.",
     "Her postgraduate research measured what actually makes a smile look balanced, in growing children and in adults. That question — how a smile should sit within a face — is the thread running through Align Aesthetic, from a first set of braces to a full smile design.",
   ],
 };
