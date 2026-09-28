@@ -1,3 +1,4 @@
+import { learning } from "./clinic";
 /**
  * Clinic photographs published on the site.
  *
@@ -39,11 +40,12 @@ const all: Photo[] = [
   { src: "/images/doctor/credentials-wall.jpg", alt: "Dr. Nikita Soni in front of her framed certificates", caption: "The certificate wall", category: "Dr. Nikita", wide: true },
   { src: "/images/credentials/mds.jpg", alt: "MDS degree certificate in Orthodontics", caption: "MDS · Orthodontics, 2023", category: "Credentials" },
   { src: "/images/credentials/bds.jpg", alt: "BDS degree certificate", caption: "BDS, 2018", category: "Credentials" },
-  { src: "/images/credentials/ios-best-paper.jpg", alt: "Indian Orthodontic Society best paper certificate", caption: "IOS PG Convention · Best Paper", category: "Credentials" },
-  { src: "/images/credentials/isoi-2024.jpg", alt: "ISOI national conference certificate", caption: "ISOI National Conference, 2024", category: "Credentials" },
-  { src: "/images/credentials/laser-2025.jpg", alt: "Laser dentistry hands-on certificate", caption: "Laser dentistry hands-on, 2025", category: "Credentials" },
-  { src: "/images/credentials/coltene-2026.jpg", alt: "Aesthetic dentistry workshop certificate", caption: "Aesthetic dentistry workshop, 2026", category: "Credentials" },
 ];
 
-export const photos = all.filter((p) => SHOW_PATIENT_PHOTOS || !p.hasPatient);
+/** Every continuing-education certificate also appears under "Credentials". */
+const certificatePhotos: Photo[] = learning.flatMap((l) =>
+  l.images.map((src) => ({ src, alt: `Certificate: ${l.title}`, caption: l.when ? `${l.title} · ${l.when}` : l.title, category: "Credentials" as const })),
+);
+
+export const photos = [...all, ...certificatePhotos].filter((p) => SHOW_PATIENT_PHOTOS || !p.hasPatient);
 export const galleryCategories = ["All", "Clinic", "Treatment", "Dr. Nikita", "Credentials"] as const;

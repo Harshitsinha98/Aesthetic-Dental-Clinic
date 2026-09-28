@@ -75,57 +75,154 @@ export const doctor = {
 };
 
 /**
- * Continuing education — every entry is transcribed from a framed certificate
- * on the clinic wall. Only dates that are legible on the certificate are given.
+ * Continuing education — every entry is transcribed from a certificate
+ * photographed at the clinic (photos/originals and photos/new images). Only
+ * dates printed on the certificate are given. Newest first.
  */
-export const learning: Array<{
+export type LearningCategory = "Orthodontics & aligners" | "Facial aesthetics" | "Restorative & endo" | "Conferences & research";
+
+export type Learning = {
   title: string;
   by: string;
   when?: string;
   highlight?: string;
-}> = [
+  category: LearningCategory;
+  /** Certificate photo(s) in /public/images/credentials. */
+  images: string[];
+};
+
+export const learningCategories: LearningCategory[] = [
+  "Orthodontics & aligners",
+  "Facial aesthetics",
+  "Restorative & endo",
+  "Conferences & research",
+];
+
+export const learning: Learning[] = [
   {
-    title: "26th IOS National PG Students Convention",
-    by: "Indian Orthodontic Society · Sardar Patel PG Institute of Dental & Medical Sciences, Lucknow",
-    when: "Feb 2023",
-    highlight: "Session’s Best Paper",
+    title: "Post Graduate Diploma in Clinical Cosmetology",
+    by: "Cosmetica India Academy, with the International Academy of Cosmetology, Ukraine · 6-month course",
+    when: "Jul 2026",
+    highlight: "PG Diploma",
+    category: "Facial aesthetics",
+    images: ["/images/credentials/cosmetica-pg-diploma-2026.jpg"],
   },
   {
-    title: "30th National Conference of the Indian Society of Oral Implantologists",
-    by: "ISOI · Brilliant Convention Centre, Indore",
-    when: "Sep 2024",
+    title: "Master Course in Facial Aesthetics (MCFA)",
+    by: "Cosmetica India Academy · three-day workshop",
+    when: "Jul 2026",
+    category: "Facial aesthetics",
+    images: ["/images/credentials/cosmetica-facial-aesthetics-2026.jpg", "/images/credentials/cosmetica-masterclass.jpg"],
   },
   {
-    title: "Lights Up Your Practice — a precision approach to laser dentistry",
-    by: "Lecture + hands-on · MP Dental Depot with Orikam, Bhopal",
-    when: "Jun 2025",
+    title: "Master Course in Trichology (MCIT)",
+    by: "Cosmetica India Academy · two-day workshop",
+    when: "Jul 2026",
+    category: "Facial aesthetics",
+    images: ["/images/credentials/cosmetica-trichology-2026.jpg"],
+  },
+  {
+    title: "Master Course in Semi-Permanent Makeup",
+    by: "Cosmetica India Academy · one-day workshop",
+    when: "Jul 2026",
+    category: "Facial aesthetics",
+    images: ["/images/credentials/cosmetica-spmu-2026.jpg"],
+  },
+  {
+    title: "Zirconia & E-max crowns, and crown troubleshooting",
+    by: "DentCare with the Indian Dental Association, Bhopal branch",
+    when: "Apr 2026",
+    category: "Restorative & endo",
+    images: ["/images/credentials/ida-crowns-2026.jpg"],
   },
   {
     title: "Aesthetic & Cosmetic Dentistry — lecture & demo workshop",
     by: "Indian Dental Association × Coltene",
     when: "Feb 2026",
+    category: "Restorative & endo",
+    images: ["/images/credentials/coltene-2026.jpg"],
+  },
+  {
+    title: "Lights Up Your Practice — a precision approach to laser dentistry",
+    by: "Lecture + hands-on · MP Dental Depot with Orikam, Bhopal",
+    when: "Jun 2025",
+    category: "Restorative & endo",
+    images: ["/images/credentials/laser-2025.jpg"],
+  },
+  {
+    title: "30th National Conference of the Indian Society of Oral Implantologists",
+    by: "ISOI · Brilliant Convention Centre, Indore",
+    when: "Sep 2024",
+    category: "Conferences & research",
+    images: ["/images/credentials/isoi-2024.jpg"],
+  },
+  {
+    title: "Brava Plus & independent tooth-movement mechanics",
+    by: "Brius Technologies with SheepMedical · certificate course",
+    when: "Sep 2024",
+    category: "Orthodontics & aligners",
+    images: ["/images/credentials/brius-2024.jpg"],
   },
   {
     title: "In-office aligners — hands-on workshop",
     by: "In Office Aligner Academy, Indore",
+    when: "Jun 2024",
+    category: "Orthodontics & aligners",
+    images: ["/images/credentials/in-office-aligners-2024.jpg"],
+  },
+  {
+    title: "Rotary Endodontics Simplified with GenENDO",
+    by: "Coltene · lecture & hands-on workshop",
+    when: "May 2024",
+    category: "Restorative & endo",
+    images: ["/images/credentials/coltene-genendo-2024.jpg"],
+  },
+  {
+    title: "Mastering Smile Transformations — hands-on course",
+    by: "Dr. Kshama Chandan · Delhi",
+    when: "6–7 Sep",
+    category: "Orthodontics & aligners",
+    images: ["/images/credentials/smile-transformations.jpg"],
+  },
+  {
+    title: "26th IOS National PG Students Convention",
+    by: "Indian Orthodontic Society · Sardar Patel PG Institute of Dental & Medical Sciences, Lucknow — attended and presented",
+    when: "Feb 2023",
+    highlight: "Session’s Best Paper",
+    category: "Conferences & research",
+    images: [
+      "/images/credentials/ios-best-paper.jpg",
+      "/images/credentials/ios-appreciation-2023.jpg",
+      "/images/credentials/ios-attendance-2023.jpg",
+    ],
+  },
+  {
+    title: "A complete guide to clinical cases of cleft lip & craniofacial orthodontics",
+    by: "Dept. of Orthodontics, K.D. Dental College & Hospital, Mathura",
+    when: "Jan 2023",
+    category: "Orthodontics & aligners",
+    images: ["/images/credentials/kd-cleft-2023.jpg"],
   },
   {
     title: "Teeth straightening with clear aligners",
     by: "International College of Dentists · CDE programme, Moradabad",
     when: "Sep 2022",
+    category: "Orthodontics & aligners",
+    images: ["/images/credentials/icd-aligners-2022.jpg"],
   },
   {
-    title: "Bravo Plus & independent tooth-movement mechanics",
-    by: "Brius Technologies · certificate course",
+    title: "Introduction to research methodology — live CDE workshop",
+    by: "K.D. Dental College & Hospital, Mathura",
+    when: "Feb 2022",
+    category: "Conferences & research",
+    images: ["/images/credentials/kd-research-2022.jpg"],
   },
   {
-    title: "Orthorachna",
+    title: "Orthorachna 2K21",
     by: "Dept. of Orthodontics, Manav Rachna Dental College, Faridabad",
     when: "Nov 2021",
-  },
-  {
-    title: "A complete guide to clinical cases of cleft lip & craniofacial orthodontics",
-    by: "K.D. Dental College & Hospital, Mathura",
+    category: "Orthodontics & aligners",
+    images: ["/images/credentials/orthorachna-2021.jpg"],
   },
 ];
 
