@@ -58,7 +58,7 @@ export function Header() {
             <Logo />
           </Link>
 
-          <nav aria-label="Main" className="hidden items-center gap-8 lg:flex">
+          <nav aria-label="Main" className="hidden items-center gap-7 xl:gap-8 lg:flex">
             {navLinks.map((link) => {
               const active = pathname === link.href || pathname.startsWith(`${link.href}/`);
               return (
@@ -71,6 +71,11 @@ export function Header() {
                   )}
                 >
                   {link.label}
+                  {link.badge && (
+                    <span className="absolute -top-2 -right-5 rounded-full bg-crimson px-1.5 py-px text-[0.55rem] font-semibold tracking-wider text-white uppercase">
+                      {link.badge}
+                    </span>
+                  )}
                   <span
                     className={cn(
                       "absolute inset-x-0 -bottom-0.5 h-px origin-left bg-ink transition-transform duration-500 ease-out-soft",
@@ -138,6 +143,9 @@ export function Header() {
                   >
                     <span className="label-mono w-6 text-ink-mute">{String(i + 1).padStart(2, "0")}</span>
                     <span className="font-display text-[2rem] leading-tight">{link.label}</span>
+                    {"badge" in link && link.badge && (
+                      <span className="self-center rounded-full bg-crimson px-2 py-0.5 text-[0.6rem] font-semibold tracking-wider text-white uppercase">{link.badge}</span>
+                    )}
                   </Link>
                 </motion.div>
               ))}

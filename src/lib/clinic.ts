@@ -256,8 +256,9 @@ export function googleWriteReviewHref(placeId?: string) {
   return googleReviewsHref();
 }
 
-export const navLinks = [
+export const navLinks: Array<{ href: string; label: string; badge?: string }> = [
   { href: "/treatments", label: "Treatments" },
+  { href: "/facial-aesthetics", label: "Aesthetics", badge: "Soon" },
   { href: "/technology", label: "Technology" },
   { href: "/about", label: "Dr. Nikita" },
   { href: "/gallery", label: "Clinic" },
