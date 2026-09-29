@@ -11,7 +11,7 @@ export function TokenCta() {
       <div className="container-page grid items-center gap-14 lg:grid-cols-12">
         <Reveal className="lg:col-span-6">
           <p className="label-mono flex items-center gap-3 text-ink-mute">
-            <span className="text-ink">06</span>
+            <span className="text-ink">07</span>
             <span className="h-px w-10 bg-ink/25" />
             Online token
           </p>

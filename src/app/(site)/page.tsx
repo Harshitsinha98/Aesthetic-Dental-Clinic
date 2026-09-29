@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { ClinicFrames } from "@/components/home/clinic-frames";
+import { ClinicShowcase } from "@/components/home/clinic-showcase";
 import { DoctorIntro } from "@/components/home/doctor-intro";
 import { DoctorSpotlight } from "@/components/home/doctor-spotlight";
 import { Hero } from "@/components/home/hero";
@@ -34,11 +35,13 @@ export default function HomePage() {
 
       <DoctorSpotlight />
 
+      <ClinicShowcase />
+
       {/* 04 — treatments */}
       <section className="py-24 lg:py-32" aria-labelledby="treat-title">
         <div className="container-page">
           <SectionHead
-            index="04"
+            index="05"
             label="Treatments"
             title={<span id="treat-title">What we do, <em className="text-teal-700 italic">in order of what we do most.</em></span>}
             lede="Every plan starts with an examination and a clear explanation of the options — including when nothing needs doing yet."
@@ -53,7 +56,7 @@ export default function HomePage() {
         header={
           <SectionHead
             tone="dark"
-            index="05"
+            index="06"
             label="The instrument tray"
             title={<>Equipment photographed <em className="text-teal-300 italic">in this clinic</em>, not a catalogue.</>}
             lede="What each device is, and what it changes for you in the chair."
@@ -67,7 +70,7 @@ export default function HomePage() {
       <section className="border-t border-ink/10 py-24 lg:py-32">
         <div className="container-page">
           <SectionHead
-            index="07"
+            index="08"
             label="The clinic & what patients say"
             title={<>A calm room on <em className="text-teal-700 italic">JK Road.</em></>}
           />
