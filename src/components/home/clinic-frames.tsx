@@ -10,7 +10,7 @@ const frames = [
   { src: "/images/clinic/reception-tooth.jpg", caption: "Reception", speed: -60, className: "lg:col-span-4 lg:row-span-2 aspect-[3/4]" },
   { src: "/images/clinic/operatory.jpg", caption: "Treatment room", speed: 40, className: "lg:col-span-3 aspect-[3/4] lg:mt-24" },
   { src: "/images/clinic/entrance.jpg", caption: "Entrance", speed: -20, className: "lg:col-span-5 aspect-[4/3]" },
-  { src: "/images/clinic/counter.jpg", caption: "Instrument counter", speed: 70, className: "lg:col-span-3 lg:col-start-6 aspect-square" },
+  { src: "/images/clinic/reception-wide.jpg", caption: "The reception wall", speed: 70, className: "lg:col-span-3 lg:col-start-6 aspect-square" },
   { src: "/images/clinic/tooth-sign-night.jpg", caption: "After dark", speed: -40, className: "lg:col-span-4 aspect-[4/5]" },
 ];
 

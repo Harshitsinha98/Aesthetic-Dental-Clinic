@@ -55,11 +55,11 @@ export function DoctorSpotlight() {
           >
             <motion.div style={reduce ? undefined : { scale }} className="absolute inset-0">
               <Image
-                src="/images/doctor/credentials-wall.jpg"
-                alt="Dr. Nikita Soni relaxing on the sofa in her clinic"
+                src="/images/doctor/certificate-wall.jpg"
+                alt="Dr. Nikita Soni seated in front of her wall of framed certificates"
                 fill
                 sizes="(min-width: 1024px) 58vw, 100vw"
-                className="object-cover object-[46%_62%] brightness-[1.12] saturate-[1.05]"
+                className="object-cover object-[50%_42%] brightness-[1.08] saturate-[1.03]"
               />
             </motion.div>
             {/* warm light from the top-left, like a window */}

@@ -20,18 +20,17 @@ import { cn } from "@/lib/cn";
 type Shot = { src: string; time: string; title: string; note: string; focus?: string };
 
 const SHOTS: Shot[] = [
-  { src: "/images/showcase/01-welcome.jpg", time: "09:58", title: "The welcome", note: "Every visit starts at the tooth-shaped front desk.", focus: "50% 45%" },
-  { src: "/images/showcase/02-front-desk.jpg", time: "10:00", title: "Doors open", note: "Open all seven days, from ten in the morning.", focus: "50% 40%" },
-  { src: "/images/showcase/03-tooth-light.jpg", time: "10:05", title: "First hello", note: "Your token is checked in and you’re shown right through.", focus: "50% 42%" },
-  { src: "/images/showcase/04-closer-look.jpg", time: "10:15", title: "A closer look", note: "A careful examination before any plan is made.", focus: "55% 40%" },
-  { src: "/images/showcase/05-checkup.jpg", time: "10:20", title: "The check-up", note: "Teeth, gums and bite — looked at properly.", focus: "45% 40%" },
-  { src: "/images/showcase/06-on-screen.jpg", time: "10:25", title: "On the big screen", note: "The intraoral camera puts your own teeth in front of you.", focus: "55% 45%" },
-  { src: "/images/showcase/07-seeing.jpg", time: "10:28", title: "See it yourself", note: "No guesswork — you see exactly what the doctor sees.", focus: "65% 35%" },
-  { src: "/images/showcase/08-explained.jpg", time: "10:32", title: "Explained, simply", note: "Options talked through in plain words.", focus: "60% 40%" },
-  { src: "/images/showcase/09-treatment-room.jpg", time: "10:40", title: "The treatment room", note: "Sterile instruments, one patient at a time.", focus: "40% 45%" },
-  { src: "/images/showcase/10-unhurried.jpg", time: "10:50", title: "Unhurried care", note: "Fifteen-minute tokens mean no one is rushed.", focus: "65% 45%" },
-  { src: "/images/showcase/11-between.jpg", time: "14:00", title: "Between appointments", note: "A moment on the sofa before the evening session.", focus: "62% 60%" },
-  { src: "/images/showcase/12-unwind.jpg", time: "21:00", title: "Until tomorrow", note: "Evening tokens run till nine. See you soon.", focus: "55% 60%" },
+  { src: "/images/clinic/exterior.jpg", time: "09:55", title: "On JK Road", note: "Look for the tooth-shaped sign at A-6, New Minal Residency.", focus: "50% 45%" },
+  { src: "/images/clinic/reception-desk.jpg", time: "10:00", title: "The welcome", note: "Every visit starts at the tooth-shaped front desk.", focus: "55% 40%" },
+  { src: "/images/clinic/reception-wide.jpg", time: "10:03", title: "The tooth wall", note: "Open all seven days, from ten in the morning.", focus: "50% 40%" },
+  { src: "/images/clinic/lounge-window.jpg", time: "10:08", title: "The waiting lounge", note: "A calm, bright place to wait — rarely for long.", focus: "50% 45%" },
+  { src: "/images/doctor/certificate-wall.jpg", time: "10:12", title: "Meet Dr. Nikita", note: "Your orthodontist, in front of the courses she has earned.", focus: "50% 42%" },
+  { src: "/images/clinic/examination.jpg", time: "10:18", title: "The check-up", note: "A careful look before any plan is made.", focus: "45% 40%" },
+  { src: "/images/clinic/camera-on-screen.jpg", time: "10:25", title: "On the big screen", note: "The intraoral camera puts your own teeth in front of you.", focus: "55% 42%" },
+  { src: "/images/clinic/treatment-chair.jpg", time: "10:35", title: "In treatment", note: "Fifteen-minute tokens mean no one is rushed.", focus: "45% 42%" },
+  { src: "/images/clinic/operatory.jpg", time: "10:45", title: "The treatment room", note: "Sterile instruments, one patient at a time.", focus: "45% 45%" },
+  { src: "/images/doctor/sofa.jpg", time: "14:00", title: "Between appointments", note: "A quiet moment before the evening session.", focus: "55% 45%" },
+  { src: "/images/clinic/tooth-sign-night.jpg", time: "21:00", title: "Until tomorrow", note: "Evening tokens run till nine. See you soon.", focus: "50% 45%" },
 ];
 
 const AUTOPLAY_MS = 3800;
