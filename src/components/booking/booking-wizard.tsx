@@ -382,9 +382,9 @@ function Success({ booked, onAgain }: { booked: { appt: Booked; ahead: number; n
         {note && <p className="mt-4 text-sm text-crimson">{note}</p>}
 
         <div className="mt-8 border-t border-ink/10 pt-6">
-          <p className="label-mono text-ink-mute">Keep your token</p>
+          <p className="label-mono text-ink-mute">Send it to the clinic &amp; keep a copy</p>
           <p className="mt-2 text-sm text-ink-soft">
-            It’s already saved on this phone under <Link href="/my-token" className="font-medium text-ink underline">My token</Link>. To be safe, keep a copy too:
+            It’s already saved on this phone under <Link href="/my-token" className="font-medium text-ink underline">My token</Link>. Tap WhatsApp to send it to the clinic too:
           </p>
           <div className="mt-4">
             <SaveTokenActions token={token} />
