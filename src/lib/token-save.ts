@@ -85,6 +85,25 @@ export function tokenText(t: Pick<SavedToken, "tokenNumber" | "date" | "slotStar
   ].join("\n");
 }
 
+/**
+ * A wa.me link that opens WhatsApp with a message to the clinic (answered by
+ * reception / Dr. Nikita), pre-filled with the token details. The patient taps
+ * Send — nothing is sent automatically, and it needs no clinic setup.
+ */
+export function clinicWhatsAppHref(t: Pick<SavedToken, "tokenNumber" | "date" | "slotStart" | "patientName" | "reference">) {
+  const message = [
+    `Hello ${clinic.name}, I have booked a token online:`,
+    ``,
+    `Token #${t.tokenNumber}`,
+    `${dateLabel(t.date, "long")} · ${to12h(t.slotStart)}`,
+    `Patient: ${t.patientName}`,
+    `Booking code: ${t.reference}`,
+    ``,
+    `Please confirm my appointment. Thank you!`,
+  ].join("\n");
+  return `https://wa.me/${clinic.phone}?text=${encodeURIComponent(message)}`;
+}
+
 /* ------------------------------- calendar --------------------------------- */
 
 /** IST wall-clock → UTC basic format (YYYYMMDDTHHMMSSZ). IST has no DST. */
