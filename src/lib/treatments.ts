@@ -48,7 +48,7 @@ export const treatments: Treatment[] = [
       { q: "Do aligners hurt?", a: "Most people feel pressure for a day or two when they switch to a new set. It usually settles quickly." },
       { q: "Can every case be treated with aligners?", a: "Not always. Some bite problems move more predictably with fixed braces. An orthodontic examination is the only honest way to tell." },
     ],
-    image: "/images/clinic/treatment-bay-camera.jpg",
+    image: "/images/clinic/camera-on-screen.jpg",
   },
   {
     slug: "braces",
@@ -75,7 +75,7 @@ export const treatments: Treatment[] = [
       { q: "How often are the visits?", a: "Adjustment visits are usually spaced a few weeks apart; your schedule depends on the plan." },
       { q: "Can I eat normally?", a: "Mostly, yes. Very hard and very sticky foods are best avoided because they can break a bracket." },
     ],
-    image: "/images/clinic/treatment-bay-wide.jpg",
+    image: "/images/clinic/treatment-chair.jpg",
   },
   {
     slug: "smile-design",
@@ -222,7 +222,7 @@ export const treatments: Treatment[] = [
     faqs: [
       { q: "How often should I get a check-up?", a: "Many people are advised to visit every six months, but the right interval depends on your teeth and gums." },
     ],
-    image: "/images/clinic/treatment-bay-green.jpg",
+    image: "/images/clinic/examination.jpg",
   },
 ];
 
