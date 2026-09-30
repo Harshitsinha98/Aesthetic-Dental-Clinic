@@ -62,15 +62,15 @@ export const doctor = {
     {
       degree: "Bachelor of Dental Surgery (BDS)",
       field: "Dentistry",
-      institution: "People’s College of Dental Sciences & Research Centre",
+      institution: "People’s Dental College & Research Centre",
       university: "People’s University, Bhopal",
-      year: "2018",
+      year: "2019",
     },
   ],
 
   bio: [
-    "Dr. Nikita Soni is an orthodontist with three years of clinical practice — a dentist who went on to a specialist postgraduate degree in moving teeth and guiding the growth of the jaws. She trained in Bhopal for her BDS and completed her MDS in Orthodontics & Dentofacial Orthopaedics at K.D. Dental College, Mathura.",
-    "Her postgraduate research measured what actually makes a smile look balanced, in growing children and in adults. That question — how a smile should sit within a face — is the thread running through Align Aesthetic, from a first set of braces to a full smile design.",
+    "Dr. Nikita Soni is an orthodontist and dentofacial orthopaedic specialist — a dentist who went on to a specialist postgraduate degree in moving teeth and guiding the growth of the jaws. As a consultant orthodontist she is a certified Invisalign provider and a braces expert, working across both labial and lingual braces and clear aligners for children and adults alike.",
+    "Her postgraduate research measured what actually makes a smile look balanced, in growing children and in adults — published in the International Journal of Dental Science and Innovative Research, and later expanded into a book on orthodontic materials. That question — how a smile should sit within a face — is the thread running through Align Aesthetic, from a first set of braces to a full smile design.",
   ],
 };
 
