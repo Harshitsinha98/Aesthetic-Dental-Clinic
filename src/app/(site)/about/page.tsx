@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const certificates = [
   { src: "/images/credentials/mds.jpg", caption: "MDS · Orthodontics & Dentofacial Orthopaedics, 2023" },
-  { src: "/images/credentials/bds.jpg", caption: "Bachelor of Dental Surgery, 2018" },
+  { src: "/images/credentials/bds.jpg", caption: "Bachelor of Dental Surgery, 2019" },
 ];
 
 export default function AboutPage() {
