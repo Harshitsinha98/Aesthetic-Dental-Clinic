@@ -11,6 +11,13 @@ const nextConfig: NextConfig = {
     remotePatterns: [{ protocol: "https", hostname: "lh3.googleusercontent.com" }],
   },
 
+  async redirects() {
+    return [
+      { source: "/treatments/crowns-bridges", destination: "/treatments/crowns-veneers", permanent: true },
+      { source: "/treatments/general-dentistry", destination: "/treatments/check-up", permanent: true },
+    ];
+  },
+
   async headers() {
     return [
       {
