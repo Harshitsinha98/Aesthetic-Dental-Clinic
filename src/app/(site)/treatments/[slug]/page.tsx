@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { BracesTypes } from "@/components/treatments/braces-types";
+import { TreatmentArt } from "@/components/treatments/treatment-art";
 import { Reveal, RevealGroup } from "@/components/ui/reveal";
 import { clinic, doctor } from "@/lib/clinic";
 import { treatmentBySlug, treatments } from "@/lib/treatments";
@@ -55,6 +57,7 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
           <Reveal>
             <h2 className="text-3xl">What it is</h2>
             <p className="mt-5 text-[1.05rem] leading-relaxed text-ink-soft">{t.intro}</p>
+            <TreatmentArt slug={t.slug} className="mt-8 aspect-[5/3]" />
           </Reveal>
 
           <Reveal className="mt-16">
@@ -110,6 +113,8 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
           </div>
         </aside>
       </div>
+
+      {t.slug === "braces" && <BracesTypes />}
 
       <Link href={`/treatments/${next.slug}`} className="group block border-t border-ink/10 bg-teal-950 text-porcelain">
         <div className="container-page flex items-center justify-between gap-6 py-14">
