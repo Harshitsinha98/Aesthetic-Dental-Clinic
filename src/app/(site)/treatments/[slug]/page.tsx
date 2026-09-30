@@ -4,7 +4,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { BracesTypes } from "@/components/treatments/braces-types";
-import { TreatmentArt } from "@/components/treatments/treatment-art";
 import { Reveal, RevealGroup } from "@/components/ui/reveal";
 import { clinic, doctor } from "@/lib/clinic";
 import { treatmentBySlug, treatments } from "@/lib/treatments";
@@ -57,7 +56,14 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
           <Reveal>
             <h2 className="text-3xl">What it is</h2>
             <p className="mt-5 text-[1.05rem] leading-relaxed text-ink-soft">{t.intro}</p>
-            <TreatmentArt slug={t.slug} className="mt-8 aspect-[5/3]" />
+            {t.figure && (
+              <figure className="mt-8">
+                <div className="relative aspect-[5/3] overflow-hidden rounded-2xl border border-ink/10 bg-white">
+                  <Image src={t.figure.src} alt={t.figure.alt} fill sizes="(min-width:1024px) 58vw, 100vw" className="object-contain" />
+                </div>
+                {t.figure.caption && <figcaption className="mt-2 text-sm text-ink-mute">{t.figure.caption}</figcaption>}
+              </figure>
+            )}
           </Reveal>
 
           <Reveal className="mt-16">
