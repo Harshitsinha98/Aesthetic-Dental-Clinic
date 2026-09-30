@@ -14,7 +14,10 @@ export type Treatment = {
   forWhom: string[];
   steps: { title: string; body: string }[];
   faqs: { q: string; a: string }[];
+  /** Header hero image (portrait, 4:5, shown object-cover). */
   image: string;
+  /** Optional in-content figure (diagram or second photo), shown object-contain. */
+  figure?: { src: string; alt: string; caption?: string };
 };
 
 export const treatments: Treatment[] = [
@@ -68,7 +71,12 @@ export const treatments: Treatment[] = [
       { q: "Do aligners hurt?", a: "Most people feel pressure for a day or two when they switch to a new set. It usually settles quickly." },
       { q: "Can every case be treated with aligners?", a: "Not always. Some bite problems move more predictably with fixed braces. An orthodontic examination is the only honest way to tell." },
     ],
-    image: "/images/clinic/treatment-chair.jpg",
+    image: "/images/treatments/aligner-tray-hero.webp",
+    figure: {
+      src: "/images/treatments/aligner-case.webp",
+      alt: "A set of clear aligner trays resting in their case",
+      caption: "Thin, removable aligner trays — kept in their case between wears.",
+    },
   },
   {
     slug: "braces",
@@ -95,7 +103,7 @@ export const treatments: Treatment[] = [
       { q: "How often are the visits?", a: "Adjustment visits are usually spaced a few weeks apart; your schedule depends on the plan." },
       { q: "Can I eat normally?", a: "Mostly, yes. Very hard and very sticky foods are best avoided because they can break a bracket." },
     ],
-    image: "/images/clinic/operatory.jpg",
+    image: "/images/treatments/braces-closeup-hero.webp",
   },
   {
     slug: "root-canal",
@@ -121,7 +129,12 @@ export const treatments: Treatment[] = [
       { q: "Does a root canal hurt?", a: "The procedure is done under local anaesthesia and is designed to relieve pain, not cause it. Some tenderness for a few days afterwards is normal." },
       { q: "How many sittings does it take?", a: "It depends on the tooth and the infection — some are completed in one sitting, others need more." },
     ],
-    image: "/images/technology/endo-motor-apex.jpg",
+    image: "/images/treatments/root-canal-xray-hero.webp",
+    figure: {
+      src: "/images/treatments/root-canal-process.webp",
+      alt: "Step-by-step diagram of the root canal process, from infected tooth to a restored, crowned tooth",
+      caption: "The root canal process, step by step — cleaning the canals, sealing them, and restoring the tooth.",
+    },
   },
   {
     slug: "crowns-veneers",
@@ -146,7 +159,12 @@ export const treatments: Treatment[] = [
       { q: "Will a zirconia crown look natural?", a: "Zirconia is tooth-coloured and metal-free, so there is no dark line at the gum. The shade is matched to your neighbouring teeth." },
       { q: "Crown or veneer — which do I need?", a: "A crown covers the whole tooth to restore strength; a veneer is a thin cosmetic shell on the front. The examination decides which suits your tooth." },
     ],
-    image: "/images/clinic/reception-tooth.jpg",
+    image: "/images/treatments/crowns-zirconia-hero.webp",
+    figure: {
+      src: "/images/treatments/crowns-zirconia.webp",
+      alt: "Zirconia and porcelain crowns and veneers shown against a black background",
+      caption: "Metal-free zirconia and porcelain — tooth-coloured crowns and thin veneers.",
+    },
   },
   {
     slug: "smile-design",
@@ -198,7 +216,12 @@ export const treatments: Treatment[] = [
       { q: "When should my child first see a dentist?", a: "Around the first birthday, or when the first teeth appear. Early visits are short and friendly, and help spot problems before they hurt." },
       { q: "Do milk teeth really need treatment if they’ll fall out?", a: "Yes — healthy milk teeth guide the adult teeth into place, help eating and speech, and prevent pain and infection." },
     ],
-    image: "/images/clinic/camera-on-screen.jpg",
+    image: "/images/treatments/kids-mother-hero.webp",
+    figure: {
+      src: "/images/treatments/kids-chair.webp",
+      alt: "A young child smiling in the dental chair during a gentle check-up",
+      caption: "A calm, friendly first visit — so children grow up unafraid of the dentist.",
+    },
   },
   {
     slug: "dental-implants",
@@ -223,7 +246,12 @@ export const treatments: Treatment[] = [
       { q: "Is the procedure painful?", a: "It is done under local anaesthesia. Most people describe mild soreness afterwards that is managed with routine painkillers." },
       { q: "How long do implants last?", a: "With good oral hygiene and regular check-ups, implants are a long-term solution. Smoking and uncontrolled diabetes raise the risk of problems." },
     ],
-    image: "/images/clinic/operatory.jpg",
+    image: "/images/treatments/implant-jaw-hero.webp",
+    figure: {
+      src: "/images/treatments/implant-jaw.webp",
+      alt: "A 3D illustration of dental implants anchored in the jawbone, supporting a full arch of teeth",
+      caption: "Titanium posts anchored in the jawbone act as roots for the replacement teeth.",
+    },
   },
   {
     slug: "laser-dentistry",
@@ -273,6 +301,11 @@ export const treatments: Treatment[] = [
       { q: "Will it hurt?", a: "The tooth is numbed if needed, so the procedure is comfortable. Mild sensitivity for a day or two afterwards can happen and settles." },
     ],
     image: "/images/clinic/treatment-chair.jpg",
+    figure: {
+      src: "/images/treatments/fillings-types.webp",
+      alt: "Chart of dental filling materials — gold, silver amalgam, composite resin, ceramic and glass ionomer",
+      caption: "Filling materials compared. At Align Aesthetic, tooth-coloured composite is used so the repair blends in.",
+    },
   },
   {
     slug: "extraction",
