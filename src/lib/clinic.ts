@@ -257,11 +257,11 @@ export function googleWriteReviewHref(placeId?: string) {
 }
 
 export const navLinks: Array<{ href: string; label: string; badge?: string }> = [
-  { href: "/treatments", label: "Treatments" },
-  { href: "/facial-aesthetics", label: "Aesthetics", badge: "Soon" },
-  { href: "/technology", label: "Technology" },
   { href: "/about", label: "Dr. Nikita" },
   { href: "/gallery", label: "Clinic" },
+  { href: "/treatments", label: "Treatments" },
+  { href: "/technology", label: "Technology" },
+  { href: "/facial-aesthetics", label: "Aesthetics", badge: "Soon" },
   { href: "/reviews", label: "Reviews" },
   { href: "/contact", label: "Visit" },
 ];
