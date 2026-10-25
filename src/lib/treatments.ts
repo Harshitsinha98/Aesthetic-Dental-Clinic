@@ -104,6 +104,11 @@ export const treatments: Treatment[] = [
       { q: "Can I eat normally?", a: "Mostly, yes. Very hard and very sticky foods are best avoided because they can break a bracket." },
     ],
     image: "/images/treatments/braces-closeup-hero.webp",
+    figure: {
+      src: "/images/treatments/braces-types-chart.jpeg",
+      alt: "Chart of the types of teeth braces — metal, ceramic, lingual and self-ligating braces, and clear aligners",
+      caption: "The types of braces — metal, ceramic, lingual and self-ligating — plus clear aligners.",
+    },
   },
   {
     slug: "root-canal",
@@ -190,7 +195,12 @@ export const treatments: Treatment[] = [
       { q: "Is smile design only cosmetic?", a: "It often improves function too — a better bite and easier cleaning — but the goal is a healthy smile that also looks balanced." },
       { q: "Will my teeth look fake?", a: "The aim is the opposite. Proportions and shade are chosen to suit your face, not a template." },
     ],
-    image: "/images/doctor/portrait-desk.jpg",
+    image: "/images/treatments/smile-design-poster.jpeg",
+    figure: {
+      src: "/images/treatments/smile-design-poster.jpeg",
+      alt: "Digital Smile Design — upper and lower teeth with planning lines mapping tooth proportion and alignment",
+      caption: "Digital Smile Design — transforming dentistry with precision and art.",
+    },
   },
   {
     slug: "kids-dentistry",
@@ -199,20 +209,24 @@ export const treatments: Treatment[] = [
     kind: "Preventive",
     short: "Gentle, friendly care that makes children comfortable at the dentist — and keeps their teeth healthy.",
     intro:
-      "Paediatric dentistry looks after children’s teeth from the first tooth through to the teenage years. It is as much about the experience as the treatment: a calm, unhurried visit so a child grows up unafraid of the dentist. Care covers check-ups, cleaning, fluoride and sealants to prevent decay, simple fillings for milk teeth, and guidance on habits like thumb-sucking, plus an early orthodontic eye on how the teeth and jaws are developing.",
+      "Paediatric dentistry looks after children’s teeth from the first tooth through to the teenage years. It is as much about the experience as the treatment: a calm, unhurried visit so a child grows up unafraid of the dentist. The care offered for kids, in the order it is usually needed, covers pulpectomy, pulpotomy, extraction, filling, space maintainer, braces and Invisalign — alongside check-ups, cleaning, fluoride and sealants to prevent decay, and guidance on habits like thumb-sucking, with an early orthodontic eye on how the teeth and jaws are developing.",
     forWhom: [
       "A child’s first dental visit",
-      "Cavities or toothache in milk teeth",
+      "Pulpectomy, pulpotomy, extraction and fillings for milk teeth",
+      "Space maintainers, braces and Invisalign for kids",
       "Preventive fluoride and sealants",
       "Thumb-sucking and early bite concerns",
     ],
     steps: [
       { title: "Getting comfortable", body: "A friendly hello and a gentle look — no pressure on the first visit." },
-      { title: "Check & prevent", body: "Examination, cleaning and preventive fluoride or sealants as needed." },
-      { title: "Treat if needed", body: "Simple, gentle treatment for milk teeth, explained to child and parent." },
+      { title: "Save the tooth", body: "Where a milk tooth’s nerve is involved, a pulpotomy or pulpectomy treats it so the tooth can stay." },
+      { title: "Repair or remove", body: "A filling restores a decayed milk tooth; an extraction is only for teeth that genuinely can’t be kept." },
+      { title: "Hold the space", body: "A space maintainer keeps the gap open so the adult tooth comes in straight." },
+      { title: "Straighten for kids", body: "When the time is right, braces or Invisalign guide the growing smile — Dr. Nikita is an orthodontist." },
       { title: "Growth watch", body: "An orthodontist’s eye on how the teeth and jaws are developing." },
     ],
     faqs: [
+      { q: "What kids’ treatments do you offer?", a: "For children we offer pulpectomy, pulpotomy, extraction, filling, space maintainer, braces and Invisalign, along with check-ups, cleaning and preventive fluoride and sealants." },
       { q: "When should my child first see a dentist?", a: "Around the first birthday, or when the first teeth appear. Early visits are short and friendly, and help spot problems before they hurt." },
       { q: "Do milk teeth really need treatment if they’ll fall out?", a: "Yes — healthy milk teeth guide the adult teeth into place, help eating and speech, and prevent pain and infection." },
     ],
@@ -331,7 +345,12 @@ export const treatments: Treatment[] = [
       { q: "Will the extraction hurt?", a: "The area is fully numbed, so you feel pressure rather than pain. Any soreness afterwards is managed with simple painkillers." },
       { q: "Should I replace the removed tooth?", a: "Often, yes — a gap can let other teeth drift. Dr. Nikita can plan an implant or bridge where suitable." },
     ],
-    image: "/images/technology/extraction-forceps.jpg",
+    image: "/images/treatments/extraction-procedure.jpeg",
+    figure: {
+      src: "/images/treatments/extraction-procedure.jpeg",
+      alt: "Clinical extraction sequence — the tooth site before removal, the sutured socket and follow-up X-rays showing healing",
+      caption: "A real extraction, step by step — gentle removal, suturing where needed, and X-rays confirming the site heals well.",
+    },
   },
 ];
 

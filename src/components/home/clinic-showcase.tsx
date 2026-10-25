@@ -24,6 +24,9 @@ const SHOTS: Shot[] = [
   { src: "/images/clinic/reception-desk.jpg", time: "10:00", title: "The welcome", note: "Every visit starts at the tooth-shaped front desk.", focus: "55% 40%" },
   { src: "/images/clinic/reception-wide.jpg", time: "10:03", title: "The tooth wall", note: "Open all seven days, from ten in the morning.", focus: "50% 40%" },
   { src: "/images/clinic/lounge-window.jpg", time: "10:08", title: "The waiting lounge", note: "A calm, bright place to wait — rarely for long.", focus: "50% 45%" },
+  { src: "/images/clinic/waiting-area-1.jpeg", time: "10:10", title: "In the waiting area", note: "Families settle in under warm lights before their token is called.", focus: "50% 45%" },
+  { src: "/images/clinic/waiting-area-3.jpeg", time: "10:11", title: "A seat by the desk", note: "Room for the whole family, right beside the reception desk.", focus: "50% 45%" },
+  { src: "/images/clinic/waiting-area-5.jpeg", time: "10:14", title: "Fresh flowers at reception", note: "Little touches that make the wait feel like a living room.", focus: "50% 50%" },
   { src: "/images/doctor/certificate-wall.jpg", time: "10:12", title: "Meet Dr. Nikita", note: "Your orthodontist, in front of the courses she has earned.", focus: "50% 42%" },
   { src: "/images/clinic/examination.jpg", time: "10:18", title: "The check-up", note: "A careful look before any plan is made.", focus: "45% 40%" },
   { src: "/images/clinic/camera-on-screen.jpg", time: "10:25", title: "On the big screen", note: "The intraoral camera puts your own teeth in front of you.", focus: "55% 42%" },
@@ -205,7 +208,7 @@ export function ClinicShowcase() {
             </h2>
           </div>
           <p className="text-[1.02rem] leading-relaxed text-ink-soft lg:col-span-4 lg:col-start-9">
-            Twelve moments from an ordinary day with Dr. Nikita. <span className="hidden lg:inline">Hover over any frame to open it.</span>
+            Moments from an ordinary day with Dr. Nikita. <span className="hidden lg:inline">Hover over any frame to open it.</span>
             <span className="lg:hidden">Swipe to walk through the day.</span>
           </p>
         </motion.div>

@@ -31,47 +31,19 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 1 — Dr Nikita */}
       <DoctorIntro />
 
       <DoctorSpotlight />
 
+      {/* 2 — The clinic */}
       <ClinicShowcase />
 
-      {/* 04 — treatments */}
-      <section className="py-24 lg:py-32" aria-labelledby="treat-title">
-        <div className="container-page">
-          <SectionHead
-            index="05"
-            label="Treatments"
-            title={<span id="treat-title">What we do, <em className="text-teal-700 italic">in order of what we do most.</em></span>}
-            lede="Every plan starts with an examination and a clear explanation of the options — including when nothing needs doing yet."
-          />
-          <div className="mt-14">
-            <TreatmentIndex />
-          </div>
-        </div>
-      </section>
-
-      <InstrumentTray
-        header={
-          <SectionHead
-            tone="dark"
-            index="06"
-            label="The instrument tray"
-            title={<>Equipment photographed <em className="text-teal-300 italic">in this clinic</em>, not a catalogue.</>}
-            lede="What each device is, and what it changes for you in the chair."
-          />
-        }
-      />
-
-      <TokenCta />
-
-      {/* 06 — clinic + reviews */}
       <section className="border-t border-ink/10 py-24 lg:py-32">
         <div className="container-page">
           <SectionHead
-            index="08"
-            label="The clinic & what patients say"
+            index="05"
+            label="The clinic"
             title={<>A calm room on <em className="text-teal-700 italic">JK Road.</em></>}
           />
           <div className="mt-14">
@@ -83,13 +55,55 @@ export default function HomePage() {
               <ArrowUpRight className="size-4 transition-transform duration-500 group-hover:rotate-45" />
             </Link>
           </div>
-          <div className="mt-24">
+        </div>
+      </section>
+
+      {/* 3 — treatments */}
+      <section className="py-24 lg:py-32" aria-labelledby="treat-title">
+        <div className="container-page">
+          <SectionHead
+            index="06"
+            label="Treatments"
+            title={<span id="treat-title">What we do, <em className="text-teal-700 italic">in order of what we do most.</em></span>}
+            lede="Every plan starts with an examination and a clear explanation of the options — including when nothing needs doing yet."
+          />
+          <div className="mt-14">
+            <TreatmentIndex />
+          </div>
+        </div>
+      </section>
+
+      {/* 4 — advanced technology */}
+      <InstrumentTray
+        header={
+          <SectionHead
+            tone="dark"
+            index="07"
+            label="Advanced technology"
+            title={<>Equipment photographed <em className="text-teal-300 italic">in this clinic</em>, not a catalogue.</>}
+            lede="What each device is, and what it changes for you in the chair."
+          />
+        }
+      />
+
+      {/* 7 — reviews */}
+      <section className="border-t border-ink/10 py-24 lg:py-32">
+        <div className="container-page">
+          <SectionHead
+            index="08"
+            label="What patients say"
+            title={<>In their <em className="text-teal-700 italic">own words.</em></>}
+          />
+          <div className="mt-14">
             <GoogleReviews />
           </div>
         </div>
       </section>
 
-      <Visit />
+      <TokenCta />
+
+      {/* 8 — visits */}
+      <Visit index="10" />
     </>
   );
 }
